@@ -26,8 +26,7 @@
             }
         },
         "vendorFieldLength": 64,
-        "multiPaymentLimit": 500,
-        "aip11": true
+        "multiPaymentLimit": 500
     },
     {
         "height": 75600,
@@ -36,6 +35,10 @@
     {
         "height": 100000,
         "vendorFieldLength": 255
+    },
+    {
+        "height": 503630,
+        "aip11": true
     },
     {
         "height": 1000000000,
