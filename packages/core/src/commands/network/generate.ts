@@ -1,4 +1,4 @@
-import { Crypto, Identities, Transactions, Utils } from "@arkecosystem/crypto";
+import { Crypto, Identities, Managers, Transactions, Utils } from "@arkecosystem/crypto";
 import { flags } from "@oclif/command";
 import { generateMnemonic } from "bip39";
 import ByteBuffer from "bytebuffer";
@@ -13,7 +13,7 @@ export class GenerateCommand extends BaseCommand {
 
     public static examples: string[] = [
         `Generates a new network configuration
-$ ark config:generate --network=mynet7 --premine=120000000000 --delegates=47 --blocktime=9 --maxTxPerBlock=122 --maxBlockPayload=123444 --rewardHeight=23000 --rewardAmount=66000 --pubKeyHash=168 --wif=27 --token=myn --symbol=my --explorer=myex.io
+$ ark network:generate --network=mynet7 --premine=120000000000 --delegates=47 --blocktime=9 --maxTxPerBlock=122 --maxBlockPayload=123444 --rewardHeight=23000 --rewardAmount=66000 --pubKeyHash=168 --wif=27 --token=myn --symbol=my --explorer=myex.io
 `,
     ];
 
@@ -120,7 +120,32 @@ $ ark config:generate --network=mynet7 --premine=120000000000 --delegates=47 --b
         });
 
         this.addTask("Generate crypto network configuration", async () => {
+            const milestones = this.generateCryptoMilestones(
+                flags.delegates,
+                flags.blocktime,
+                flags.maxTxPerBlock,
+                flags.maxBlockPayload,
+                flags.rewardHeight,
+                flags.rewardAmount,
+            );
+
+            // @ts-ignore
+            Managers.configManager.setConfig({
+                network: this.generateCryptoNetwork(
+                    flags.network,
+                    flags.pubKeyHash,
+                    "",
+                    flags.wif,
+                    flags.token,
+                    flags.symbol,
+                    flags.explorer,
+                ),
+                milestones,
+                exceptions: {},
+            });
+
             const genesisWallet = this.createWallet(flags.pubKeyHash);
+
             const genesisBlock = this.generateCryptoGenesisBlock(
                 genesisWallet,
                 delegates,
@@ -136,15 +161,6 @@ $ ark config:generate --network=mynet7 --premine=120000000000 --delegates=47 --b
                 flags.token,
                 flags.symbol,
                 flags.explorer,
-            );
-
-            const milestones = this.generateCryptoMilestones(
-                flags.delegates,
-                flags.blocktime,
-                flags.maxTxPerBlock,
-                flags.maxBlockPayload,
-                flags.rewardHeight,
-                flags.rewardAmount,
             );
 
             fs.writeJsonSync(resolve(cryptoConfigDest, "network.json"), network, { spaces: 2 });
