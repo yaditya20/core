@@ -11,13 +11,27 @@ module.exports = {
             run: {
                 plugins: {
                     include: ["@arkecosystem/core-magistrate-transactions"],
+                    exclude: ["@arkecosystem/core-logger-signale"],
                 },
             },
         },
         forger: {
             run: {
                 plugins: {
-                    include: ["@arkecosystem/core-magistrate-transactions"],
+                    include: [
+                        "@arkecosystem/core-logger-signale",
+                        "@arkecosystem/core-magistrate-transactions",
+                    ],
+                    exclude: [
+                        "@arkecosystem/core-logger-pino",
+                        "@arkecosystem/core-p2p",
+                        "@arkecosystem/core-blockchain",
+                        "@arkecosystem/core-api",
+                        "@arkecosystem/core-database-postgres",
+                        "@arkecosystem/core-transaction-pool",
+                        "@arkecosystem/core-wallet-api",
+                        "@arkecosystem/core-snapshots",
+                    ],
                 },
             },
         },

@@ -1,6 +1,7 @@
 module.exports = {
     "@arkecosystem/core-event-emitter": {},
     "@arkecosystem/core-logger-pino": {},
+    "@arkecosystem/core-logger-signale": {},
     "@arkecosystem/core-p2p": {
         server: {
             port: process.env.CORE_P2P_PORT || 4000,

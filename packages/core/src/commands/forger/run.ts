@@ -32,13 +32,7 @@ $ ark forger:run --bip38="..." --password="..."
             app,
             flags,
             deepmerge(getCliConfig(flags, paths), {
-                include: [
-                    "@arkecosystem/core-event-emitter",
-                    "@arkecosystem/core-config",
-                    "@arkecosystem/core-logger",
-                    "@arkecosystem/core-logger-pino",
-                    "@arkecosystem/core-forger",
-                ],
+                include: ["@arkecosystem/core-event-emitter", "@arkecosystem/core-forger"],
                 options: {
                     "@arkecosystem/core-forger": await this.buildBIP38(flags),
                 },
