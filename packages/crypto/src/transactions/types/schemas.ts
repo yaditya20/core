@@ -1,4 +1,4 @@
-import deepmerge = require("deepmerge");
+import deepmerge from "deepmerge";
 import { TransactionType } from "../../enums";
 
 const signedTransaction = {
