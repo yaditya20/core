@@ -1,5 +1,5 @@
 import { Database, State } from "@arkecosystem/core-interfaces";
-import { delegateCalculator, hasSomeProperty } from "@arkecosystem/core-utils";
+import { delegateCalculator, expirationCalculator, hasSomeProperty } from "@arkecosystem/core-utils";
 import { Interfaces, Utils } from "@arkecosystem/crypto";
 import { searchEntries } from "./utils/search-entries";
 
@@ -18,6 +18,7 @@ interface IUnwrappedHtlcLock {
     timestamp: number;
     expirationType: number;
     expirationValue: number;
+    isExpired: boolean;
     vendorField: string;
 }
 
@@ -179,7 +180,15 @@ export class WalletsBusinessRepository implements Database.IWalletsBusinessRepos
 
     private searchLocks(params: Database.IParameters = {}): ISearchContext<IUnwrappedHtlcLock> {
         const query: Record<string, string[]> = {
-            exact: ["senderPublicKey", "lockId", "recipientId", "secretHash", "expirationType", "vendorField"],
+            exact: [
+                "expirationType",
+                "isExpired",
+                "lockId",
+                "recipientId",
+                "secretHash",
+                "senderPublicKey",
+                "vendorField",
+            ],
             between: ["expirationValue", "amount", "timestamp"],
         };
 
@@ -203,6 +212,7 @@ export class WalletsBusinessRepository implements Database.IWalletsBusinessRepos
                         timestamp: lock.timestamp,
                         expirationType: lock.expiration.type,
                         expirationValue: lock.expiration.value,
+                        isExpired: expirationCalculator.calculateLockExpirationStatus(lock.expiration),
                         vendorField: lock.vendorField,
                     });
                 }
@@ -219,7 +229,7 @@ export class WalletsBusinessRepository implements Database.IWalletsBusinessRepos
 
     private searchBusinesses(params: Database.IParameters = {}): ISearchContext<any> {
         const query: Record<string, string[]> = {
-            exact: ["businessId", "vat"],
+            exact: ["publicKey", "vat"],
             like: ["name", "repository", "website"],
         };
 
@@ -228,11 +238,17 @@ export class WalletsBusinessRepository implements Database.IWalletsBusinessRepos
             .values()
             .map(wallet => {
                 const business: any = wallet.getAttribute("business");
-                return {
+
+                const businessData = {
                     address: wallet.address,
-                    businessId: business.businessId,
+                    publicKey: wallet.publicKey,
                     ...business.businessAsset,
                 };
+                if (business.resigned) {
+                    businessData.isResigned = true;
+                }
+
+                return businessData;
             });
 
         return {
@@ -244,7 +260,7 @@ export class WalletsBusinessRepository implements Database.IWalletsBusinessRepos
 
     private searchBridgechains(params: Database.IParameters = {}): ISearchContext<any> {
         const query: Record<string, string[]> = {
-            exact: ["bridgechainId", "businessId", "genesisHash"],
+            exact: ["bridgechainId", "publicKey"],
             like: ["bridgechainRepository", "name"],
             every: ["seedNodes"],
         };
@@ -253,16 +269,20 @@ export class WalletsBusinessRepository implements Database.IWalletsBusinessRepos
             .walletManager.getIndex("bridgechains")
             .entries()
             .reduce((acc, [bridgechainId, wallet]) => {
-                const business: any = wallet.getAttribute("business");
                 const bridgechains: any[] = wallet.getAttribute("business.bridgechains");
                 if (bridgechains && bridgechains[bridgechainId]) {
                     const bridgechain: any = bridgechains[bridgechainId];
 
-                    acc.push({
+                    const bridgechainData = {
                         bridgechainId: bridgechain.bridgechainId,
-                        businessId: business.businessId,
+                        publicKey: wallet.publicKey,
                         ...bridgechain.bridgechainAsset,
-                    });
+                    };
+                    if (bridgechain.resigned) {
+                        bridgechainData.isResigned = true;
+                    }
+
+                    acc.push(bridgechainData);
                 }
 
                 return acc;

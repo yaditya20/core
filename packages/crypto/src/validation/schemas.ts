@@ -19,7 +19,7 @@ export const schemas = {
 
     transactionId: {
         $id: "transactionId",
-        allOf: [{ minLength: 64, maxLength: 64 }, { $ref: "alphanumeric" }],
+        allOf: [{ minLength: 64, maxLength: 64 }, { $ref: "hex" }],
     },
 
     networkByte: {
@@ -53,7 +53,10 @@ export const schemas = {
 
     genericName: {
         $id: "genericName",
-        allOf: [{ type: "string", pattern: "^[a-zA-Z0-9_-]+$" }, { minLength: 1, maxLength: 40 }],
+        allOf: [
+            { type: "string", pattern: "^[a-zA-Z0-9]+([ ._-][a-zA-Z0-9]+)*[.]?$" },
+            { minLength: 1, maxLength: 40 },
+        ],
     },
 
     uri: {

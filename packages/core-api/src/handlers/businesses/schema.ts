@@ -1,36 +1,36 @@
 import Joi from "@hapi/joi";
-import { pagination } from "../shared/schemas/pagination";
+import { orderBy, pagination } from "../shared/schemas";
 
 export const index: object = {
     query: {
         ...pagination,
         ...{
-            orderBy: Joi.string(),
-            businessId: Joi.number()
-                .integer()
-                .min(1),
+            orderBy,
+            publicKey: Joi.string()
+                .hex()
+                .length(66),
         },
     },
 };
 
 export const show: object = {
     params: {
-        id: Joi.number()
-            .integer()
-            .min(1),
+        id: Joi.string()
+            .hex()
+            .length(66),
     },
 };
 
 export const bridgechains: object = {
     params: {
-        id: Joi.number()
-            .integer()
-            .min(1),
+        id: Joi.string()
+            .hex()
+            .length(66),
     },
     query: {
         ...pagination,
         ...{
-            orderBy: Joi.string(),
+            orderBy,
         },
     },
 };
@@ -39,13 +39,13 @@ export const search: object = {
     query: {
         ...pagination,
         ...{
-            orderBy: Joi.string(),
+            orderBy,
         },
     },
     payload: {
-        businessId: Joi.number()
-            .integer()
-            .min(1),
+        publicKey: Joi.string()
+            .hex()
+            .length(66),
         name: Joi.string()
             .regex(/^[a-zA-Z0-9_-]+$/)
             .max(40),
