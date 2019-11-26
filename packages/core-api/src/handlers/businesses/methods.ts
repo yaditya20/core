@@ -16,7 +16,7 @@ const index = async request => {
 };
 
 const show = async request => {
-    const business = databaseService.walletManager.findByPublicKey(request.params.id);
+    const business = databaseService.walletManager.findByIndex("businesses", request.params.id);
 
     if (!business) {
         return Boom.notFound("Business not found");

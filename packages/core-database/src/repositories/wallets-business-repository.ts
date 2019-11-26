@@ -233,21 +233,9 @@ export class WalletsBusinessRepository implements Database.IWalletsBusinessRepos
             like: ["name", "repository", "website"],
         };
 
-        const entries: any[] = this.databaseServiceProvider()
+        const entries: ReadonlyArray<State.IWallet> = this.databaseServiceProvider()
             .walletManager.getIndex("businesses")
-            .values()
-            .map(wallet => {
-                const business: any = wallet.getAttribute("business");
-
-                const businessData = {
-                    address: wallet.address,
-                    publicKey: wallet.publicKey,
-                    ...business.businessAsset,
-                    isResigned: !!business.resigned,
-                };
-
-                return businessData;
-            });
+            .values();
 
         return {
             query,
