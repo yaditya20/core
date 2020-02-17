@@ -12,7 +12,7 @@ export class TransactionsBusinessRepository implements Database.ITransactionsBus
     ): Promise<Database.ITransactionsPaginated> {
         try {
             const result = await this.databaseServiceProvider().connection.transactionsRepository.search(
-                this.parseSearchParameters(params, sequenceOrder),
+                this.parseSearchParameters(params, sequenceOrder)
             );
             result.rows = await this.mapBlocksToTransactions(result.rows);
 

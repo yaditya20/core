@@ -23,6 +23,7 @@ export class TransactionsRepository extends Repository implements Database.ITran
         if (params.length) {
             // Special handling when called for `/wallets/transactions` endpoint
             let walletAddress: string;
+            // @ts-ignore
             let walletPublicKey: string;
 
             // 'search' doesn't support custom-op 'ownerId' like 'findAll' can
@@ -121,16 +122,18 @@ export class TransactionsRepository extends Repository implements Database.ITran
                             : multiPaymentQuery.or(queryAsset);
                     }
 
-                    let condition = this.query.recipient_id.equals(walletAddress).or(multiPaymentQuery);
+                    // let condition = this.query.recipient_id.equals(walletAddress).or(multiPaymentQuery);
 
-                    // We do not know public key for cold wallets
-                    if (walletPublicKey) {
-                        condition = condition.or(this.query.sender_public_key.equals(walletPublicKey));
-                    }
+                    // // We do not know public key for cold wallets
+                    // if (walletPublicKey) {
+                    //     condition = condition.or(this.query.sender_public_key.equals(walletPublicKey));
+                    // }
 
                     // todo: how do we indicate that we want to use "or" in some cases instead of where/and
                     // query[useWhere ? "where" : "and"](condition);
-                    query.or(condition);
+                    query.or(multiPaymentQuery);
+
+                    console.log(query.toString());
                 }
             }
 
@@ -140,6 +143,7 @@ export class TransactionsRepository extends Repository implements Database.ITran
                 }
             }
         }
+
 
         return this.findManyWithCount(selectQuery, selectQueryCount, parameters.paginate, parameters.orderBy);
     }
