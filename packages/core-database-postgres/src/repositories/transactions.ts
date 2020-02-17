@@ -102,21 +102,26 @@ export class TransactionsRepository extends Repository implements Database.ITran
             if (walletAddress) {
                 const useWhere: boolean = !selectQuery.nodes.some(node => node.type === "WHERE");
                 for (const query of [selectQuery, selectQueryCount]) {
-                    let condition = this.query.recipient_id.equals(walletAddress).or(
-                        // Include multipayment recipients
-                        this.query.type
-                            .equals(Enums.TransactionType.MultiPayment)
-                            .and(this.query.type_group.equals(Enums.TransactionTypeGroup.Core))
-                            .and(
-                                this.query.asset.contains({
-                                    payments: [
-                                        {
-                                            recipientId: walletAddress,
-                                        },
-                                    ],
-                                }),
-                            ),
-                    );
+                    // Include multipayment recipients
+                    let multiPaymentQuery = this.query.type
+                        .equals(Enums.TransactionType.MultiPayment)
+                        .and(this.query.type_group.equals(Enums.TransactionTypeGroup.Core));
+
+                    for (let i = 0; i < walletAddress.length; i++) {
+                        const queryAsset = this.query.asset.contains({
+                            payments: [
+                                {
+                                    recipientId: walletAddress[i],
+                                },
+                            ],
+                        });
+
+                        multiPaymentQuery = i === 0
+                            ? multiPaymentQuery.and(queryAsset)
+                            : multiPaymentQuery.or(queryAsset);
+                    }
+
+                    let condition = this.query.recipient_id.equals(walletAddress).or(multiPaymentQuery);
 
                     // We do not know public key for cold wallets
                     if (walletPublicKey) {
