@@ -203,17 +203,15 @@ export class TransactionsBusinessRepository implements Database.ITransactionsBus
         }
 
         if (params.addresses) {
-            if (params.type === 6) {
-                params.walletAddress = params.addresses;
-            } else {
-                if (!params.recipientId) {
-                    params.recipientId = params.addresses;
-                }
-
-                if (!params.senderPublicKey) {
-                    params.senderPublicKey = params.addresses.map(address => this.getPublicKeyFromAddress(address));
-                }
+            if (!params.recipientId) {
+                params.recipientId = params.addresses;
             }
+
+            if (!params.senderPublicKey) {
+                params.senderPublicKey = params.addresses.map(address => this.getPublicKeyFromAddress(address));
+            }
+
+            params.walletAddress = params.addresses;
 
             delete params.addresses;
         }
