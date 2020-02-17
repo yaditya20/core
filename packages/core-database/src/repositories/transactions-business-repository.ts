@@ -203,6 +203,8 @@ export class TransactionsBusinessRepository implements Database.ITransactionsBus
         }
 
         if (params.addresses) {
+            params.walletAddress = params.addresses;
+
             if (!params.recipientId) {
                 params.recipientId = params.addresses;
             }
@@ -210,8 +212,6 @@ export class TransactionsBusinessRepository implements Database.ITransactionsBus
             if (!params.senderPublicKey) {
                 params.senderPublicKey = params.addresses.map(address => this.getPublicKeyFromAddress(address));
             }
-
-            params.walletAddress = params.addresses;
 
             delete params.addresses;
         }

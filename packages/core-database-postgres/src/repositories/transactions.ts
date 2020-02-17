@@ -100,7 +100,7 @@ export class TransactionsRepository extends Repository implements Database.ITran
             }
 
             if (walletAddress) {
-                const useWhere: boolean = !selectQuery.nodes.some(node => node.type === "WHERE");
+                // const useWhere: boolean = !selectQuery.nodes.some(node => node.type === "WHERE");
                 for (const query of [selectQuery, selectQueryCount]) {
                     // Include multipayment recipients
                     let multiPaymentQuery = this.query.type
@@ -128,7 +128,9 @@ export class TransactionsRepository extends Repository implements Database.ITran
                         condition = condition.or(this.query.sender_public_key.equals(walletPublicKey));
                     }
 
-                    query[useWhere ? "where" : "and"](condition);
+                    // todo: how do we indicate that we want to use "or" in some cases instead of where/and
+                    // query[useWhere ? "where" : "and"](condition);
+                    query.or(condition);
                 }
             }
 
