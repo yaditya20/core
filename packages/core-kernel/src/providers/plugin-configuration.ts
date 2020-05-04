@@ -17,7 +17,7 @@ export class PluginConfiguration {
      * @memberof RegisterBasePaths
      */
     @inject(Identifiers.ConfigRepository)
-    private readonly configRepository!: ConfigRepository;
+    readonly #configRepository!: ConfigRepository;
 
     /**
      * The loaded items.
@@ -26,7 +26,7 @@ export class PluginConfiguration {
      * @type {JsonObject}
      * @memberof PluginConfiguration
      */
-    private items: JsonObject = {};
+    #items: JsonObject = {};
 
     /**
      * @param {string} name

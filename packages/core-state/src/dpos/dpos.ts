@@ -4,17 +4,17 @@ import { Utils } from "@arkecosystem/crypto";
 @Container.injectable()
 export class DposState implements Contracts.State.DposState {
     @Container.inject(Container.Identifiers.LogService)
-    private logger!: Contracts.Kernel.Logger;
+    #logger!: Contracts.Kernel.Logger;
 
     @Container.inject(Container.Identifiers.WalletRepository)
     @Container.tagged("state", "blockchain") // TODO: see todo in block-state
-    private walletRepository!: Contracts.State.WalletRepository;
+    #walletRepository!: Contracts.State.WalletRepository;
 
-    private roundInfo: Contracts.Shared.RoundInfo | null = null;
+    #roundInfo: Contracts.Shared.RoundInfo | null = null;
 
-    private activeDelegates: Contracts.State.Wallet[] = [];
+    #activeDelegates: Contracts.State.Wallet[] = [];
 
-    private roundDelegates: Contracts.State.Wallet[] = [];
+    #roundDelegates: Contracts.State.Wallet[] = [];
 
     public getRoundInfo(): Contracts.Shared.RoundInfo {
         AppUtils.assert.defined<Contracts.Shared.RoundInfo>(this.roundInfo);

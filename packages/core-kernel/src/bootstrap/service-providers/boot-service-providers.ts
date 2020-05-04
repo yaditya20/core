@@ -26,7 +26,7 @@ export class BootServiceProviders implements Bootstrapper {
      * @memberof Local
      */
     @inject(Identifiers.Application)
-    private readonly app!: Application;
+    readonly #app!: Application;
 
     /**
      * @private
@@ -34,7 +34,7 @@ export class BootServiceProviders implements Bootstrapper {
      * @memberof BootServiceProviders
      */
     @inject(Identifiers.ServiceProviderRepository)
-    private readonly serviceProviders!: ServiceProviderRepository;
+    readonly #serviceProviders!: ServiceProviderRepository;
 
     /**
      * @returns {Promise<void>}

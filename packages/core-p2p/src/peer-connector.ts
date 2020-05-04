@@ -5,8 +5,8 @@ import os from "os";
 // todo: review the implementation
 @Container.injectable()
 export class PeerConnector implements Contracts.P2P.PeerConnector {
-    private readonly connections: Utils.Collection<Nes.Client> = new Utils.Collection<Nes.Client>();
-    private readonly errors: Map<string, string> = new Map<string, string>();
+    readonly #connections: Utils.Collection<Nes.Client> = new Utils.Collection<Nes.Client>();
+    readonly #errors: Map<string, string> = new Map<string, string>();
 
     public all(): Nes.Client[] {
         return this.connections.values();

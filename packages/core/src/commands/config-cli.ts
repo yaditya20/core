@@ -38,7 +38,7 @@ export class Command extends Commands.Command {
      * @memberof Command
      */
     @Container.inject(Container.Identifiers.Installer)
-    private readonly installer!: Services.Installer;
+    readonly #installer!: Services.Installer;
 
     /**
      * Configure the console command.
@@ -81,7 +81,7 @@ export class Command extends Commands.Command {
 
             spinner.start();
 
-            this.installer.installFromChannel(this.pkg.name!, newChannel);
+            this.#installer.installFromChannel(this.pkg.name!, newChannel);
 
             spinner.succeed();
 

@@ -15,7 +15,7 @@ export class DisconnectInvalidPeers implements Contracts.Kernel.EventListener {
      * @memberof DisconnectInvalidPeers
      */
     @Container.inject(Container.Identifiers.Application)
-    private readonly app!: Contracts.Kernel.Application;
+    readonly #app!: Contracts.Kernel.Application;
 
     /**
      * @private
@@ -23,7 +23,7 @@ export class DisconnectInvalidPeers implements Contracts.Kernel.EventListener {
      * @memberof DisconnectInvalidPeers
      */
     @Container.inject(Container.Identifiers.EventDispatcherService)
-    private readonly emitter!: Contracts.Kernel.EventDispatcher;
+    readonly #emitter!: Contracts.Kernel.EventDispatcher;
 
     /**
      * @private
@@ -31,7 +31,7 @@ export class DisconnectInvalidPeers implements Contracts.Kernel.EventListener {
      * @memberof DisconnectInvalidPeers
      */
     @Container.inject(Container.Identifiers.PeerStorage)
-    private readonly storage!: Contracts.P2P.PeerStorage;
+    readonly #storage!: Contracts.P2P.PeerStorage;
 
     /**
      * @returns {Promise<void>}
@@ -60,7 +60,7 @@ export class DisconnectPeer implements Contracts.Kernel.EventListener {
      * @memberof DisconnectPeer
      */
     @Container.inject(Container.Identifiers.PeerConnector)
-    private readonly connector!: PeerConnector;
+    readonly #connector!: PeerConnector;
 
     /**
      * @private
@@ -68,7 +68,7 @@ export class DisconnectPeer implements Contracts.Kernel.EventListener {
      * @memberof DisconnectPeer
      */
     @Container.inject(Container.Identifiers.PeerStorage)
-    private readonly storage!: Contracts.P2P.PeerStorage;
+    readonly #storage!: Contracts.P2P.PeerStorage;
 
     /**
      * @param {*} {data}

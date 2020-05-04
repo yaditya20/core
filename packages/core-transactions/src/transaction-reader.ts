@@ -9,31 +9,31 @@ export class TransactionReader {
     public bufferSize: number = 1000000000;
 
     @Container.inject(Container.Identifiers.DatabaseTransactionRepository)
-    private transactionRepository!: Repositories.TransactionRepository;
+    #transactionRepository!: Repositories.TransactionRepository;
 
-    private type!: number;
-    private typeGroup!: number;
-    private index: number = 0;
+    #type!: number;
+    #typeGroup!: number;
+    #index: number = 0;
 
     public initialize(typeConstructor: Transactions.TransactionConstructor): TransactionReader {
         Utils.assert.defined<number>(typeConstructor.type);
         Utils.assert.defined<number>(typeConstructor.typeGroup);
 
-        this.type = typeConstructor.type;
-        this.typeGroup = typeConstructor.typeGroup;
-        this.index = 0;
+        this.#type = typeConstructor.type;
+        this.#typeGroup = typeConstructor.typeGroup;
+        this.#index = 0;
 
         return this;
     }
 
     public async read(): Promise<Models.Transaction[]> {
-        const transactions = await this.transactionRepository.findByType(
-            this.type,
-            this.typeGroup,
+        const transactions = await this.#transactionRepository.findByType(
+            this.#type,
+            this.#typeGroup,
             this.bufferSize,
-            this.index,
+            this.#index,
         );
-        this.index += transactions.length;
+        this.#index += transactions.length;
         return transactions;
     }
 }

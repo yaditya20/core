@@ -26,7 +26,7 @@ export abstract class InstanceManager<T> {
      * @type {string}
      * @memberof InstanceManager
      */
-    private defaultDriver: string;
+    #defaultDriver: string;
 
     /**
      * The array of created "drivers".
@@ -35,7 +35,7 @@ export abstract class InstanceManager<T> {
      * @type {Map<string, T>}
      * @memberof InstanceManager
      */
-    private drivers: Map<string, T> = new Map<string, T>();
+    #drivers: Map<string, T> = new Map<string, T>();
 
     /**
      * Create a new manager instance.

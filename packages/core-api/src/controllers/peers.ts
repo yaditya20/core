@@ -9,7 +9,7 @@ import { Controller } from "./controller";
 @Container.injectable()
 export class PeersController extends Controller {
     @Container.inject(Container.Identifiers.PeerStorage)
-    private readonly peerStorage!: Contracts.P2P.PeerStorage;
+    readonly #peerStorage!: Contracts.P2P.PeerStorage;
 
     public async index(request: Hapi.Request, h: Hapi.ResponseToolkit) {
         const allPeers: Contracts.P2P.Peer[] = [...this.peerStorage.getPeers()];

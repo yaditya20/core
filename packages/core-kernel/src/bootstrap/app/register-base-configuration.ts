@@ -19,7 +19,7 @@ export class RegisterBaseConfiguration implements Bootstrapper {
      * @memberof Local
      */
     @inject(Identifiers.Application)
-    private readonly app!: Application;
+    readonly #app!: Application;
 
     /**
      * The application configuration.
@@ -29,7 +29,7 @@ export class RegisterBaseConfiguration implements Bootstrapper {
      * @memberof LoadCryptography
      */
     @inject(Identifiers.ConfigRepository)
-    private readonly configRepository!: ConfigRepository;
+    readonly #configRepository!: ConfigRepository;
 
     /**
      * @param {Kernel.Application} app

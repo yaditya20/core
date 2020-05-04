@@ -47,13 +47,13 @@ export class BIP38 extends Method implements Delegate {
      * @type {number}
      * @memberof BIP38
      */
-    private readonly keySize: number = 32;
+    readonly #keySize: number = 32;
 
     /**
      * @type {number}
      * @memberof BIP38
      */
-    private readonly iterations: number = 5000;
+    readonly #iterations: number = 5000;
 
     /**
      * @param {string} bip38

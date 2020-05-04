@@ -12,42 +12,42 @@ import { buildRateLimiter, checkDNS, checkNTP } from "./utils";
 export class NetworkMonitor implements Contracts.P2P.NetworkMonitor {
     public config: any;
     public nextUpdateNetworkStatusScheduled: boolean | undefined;
-    private coldStart: boolean = false;
+    #coldStart: boolean = false;
 
     /**
      * If downloading some chunk fails but nevertheless we manage to download higher chunks,
      * then they are stored here for later retrieval.
      */
-    private downloadedChunksCache: { [key: string]: Interfaces.IBlockData[] } = {};
+    #downloadedChunksCache: { [key: string]: Interfaces.IBlockData[] } = {};
 
     /**
      * Maximum number of entries to keep in `downloadedChunksCache`.
      * At 400 blocks per chunk, 100 chunks would amount to 40k blocks.
      */
-    private downloadedChunksCacheMax: number = 100;
+    #downloadedChunksCacheMax: number = 100;
 
-    private initializing = true;
+    #initializing = true;
 
     @Container.inject(Container.Identifiers.Application)
-    private readonly app!: Contracts.Kernel.Application;
+    readonly #app!: Contracts.Kernel.Application;
 
     @Container.inject(Container.Identifiers.PluginConfiguration)
     @Container.tagged("plugin", "@arkecosystem/core-p2p")
-    private readonly configuration!: Providers.PluginConfiguration;
+    readonly #configuration!: Providers.PluginConfiguration;
 
     @Container.inject(Container.Identifiers.LogService)
-    private readonly logger!: Contracts.Kernel.Logger;
+    readonly #logger!: Contracts.Kernel.Logger;
 
     @Container.inject(Container.Identifiers.EventDispatcherService)
-    private readonly emitter!: Contracts.Kernel.EventDispatcher;
+    readonly #emitter!: Contracts.Kernel.EventDispatcher;
 
     @Container.inject(Container.Identifiers.PeerCommunicator)
-    private readonly communicator!: PeerCommunicator;
+    readonly #communicator!: PeerCommunicator;
 
     @Container.inject(Container.Identifiers.PeerStorage)
-    private readonly storage!: Contracts.P2P.PeerStorage;
+    readonly #storage!: Contracts.P2P.PeerStorage;
 
-    private rateLimiter!: RateLimiter;
+    #rateLimiter!: RateLimiter;
 
     public initialize() {
         this.config = this.configuration.all(); // >_<

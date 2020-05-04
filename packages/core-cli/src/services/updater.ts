@@ -23,7 +23,7 @@ export class Updater {
      * @memberof ComponentFactory
      */
     @inject(Identifiers.Application)
-    private readonly app!: Application;
+    readonly #app!: Application;
 
     /**
      * @private
@@ -31,7 +31,7 @@ export class Updater {
      * @memberof DiscoverCommands
      */
     @inject(Identifiers.Config)
-    private readonly config!: Config;
+    readonly #config!: Config;
 
     /**
      * @private
@@ -39,7 +39,7 @@ export class Updater {
      * @memberof DiscoverCommands
      */
     @inject(Identifiers.Package)
-    private readonly pkg!: PackageJson;
+    readonly #pkg!: PackageJson;
 
     /**
      * @private
@@ -47,7 +47,7 @@ export class Updater {
      * @memberof Command
      */
     @inject(Identifiers.Installer)
-    private readonly installer!: Installer;
+    readonly #installer!: Installer;
 
     /**
      * @private

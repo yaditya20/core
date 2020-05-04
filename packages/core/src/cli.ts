@@ -13,13 +13,13 @@ export class CommandLineInterface {
      * @type {Contracts.Application}
      * @memberof CommandLineInterface
      */
-    private app!: Contracts.Application;
+    readonly #app!: Contracts.Application;
 
     /**
      * @param {string[]} argv
      * @memberof CommandLineInterface
      */
-    public constructor(private readonly argv: string[]) {}
+    public constructor(readonly #argv: string[]) {}
 
     /**
      * @remarks
@@ -40,10 +40,10 @@ export class CommandLineInterface {
         const pkg: PackageJson = require("../package.json");
 
         // Create the application we will work with
-        this.app = ApplicationFactory.make(new Container.Container(), pkg);
+        this.#app = ApplicationFactory.make(new Container.Container(), pkg);
 
         // Check for updates
-        this.app.get<Contracts.Updater>(Container.Identifiers.Updater).check();
+        this.#app.get<Contracts.Updater>(Container.Identifiers.Updater).check();
 
         // Discover commands and commands from plugins
         const commands: Contracts.CommandList = this.discoverCommands(dirname);
@@ -62,7 +62,7 @@ export class CommandLineInterface {
         let commandInstance: Commands.Command = commands[commandSignature];
 
         if (!commandInstance) {
-            commandSignature = await this.app.resolve(Plugins.SuggestCommand).execute({
+            commandSignature = await this.#app.resolve(Plugins.SuggestCommand).execute({
                 signature: commandSignature,
                 signatures: Object.keys(commands),
                 bin: Object.keys(pkg.bin!)[0],
@@ -96,11 +96,11 @@ export class CommandLineInterface {
      * @memberof CommandLineInterface
      */
     private discoverCommands(dirname: string): Contracts.CommandList {
-        const discoverer = this.app.resolve(Commands.DiscoverCommands);
+        const discoverer = this.#app.resolve(Commands.DiscoverCommands);
         const commands: Contracts.CommandList = discoverer.within(resolve(dirname, "./commands"));
 
         const commandsFromPlugins = discoverer.from(
-            this.app.get<Contracts.Config>(Container.Identifiers.Config).get("plugins"),
+            this.#app.get<Contracts.Config>(Container.Identifiers.Config).get("plugins"),
         );
 
         for (const [key, value] of Object.entries(commandsFromPlugins)) {
@@ -108,7 +108,7 @@ export class CommandLineInterface {
             commands[key] = value;
         }
 
-        this.app.bind(Container.Identifiers.Commands).toConstantValue(commands);
+        this.#app.bind(Container.Identifiers.Commands).toConstantValue(commands);
         return commands;
     }
 }

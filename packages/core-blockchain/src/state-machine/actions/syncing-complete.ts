@@ -8,10 +8,10 @@ export class SyncingComplete implements Action {
     public readonly app!: Contracts.Kernel.Application;
 
     @Container.inject(Container.Identifiers.LogService)
-    private readonly logger!: Contracts.Kernel.Logger;
+    readonly #logger!: Contracts.Kernel.Logger;
 
     @Container.inject(Container.Identifiers.BlockchainService)
-    private readonly blockchain!: Contracts.Blockchain.Blockchain;
+    readonly #blockchain!: Contracts.Blockchain.Blockchain;
 
     public async handle(): Promise<void> {
         this.logger.info("Blockchain 100% in sync");

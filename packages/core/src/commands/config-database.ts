@@ -31,14 +31,14 @@ export class Command extends Commands.Command {
      * @memberof Command
      */
     @Container.inject(Container.Identifiers.Environment)
-    private readonly environment!: Services.Environment;
+    readonly #environment!: Services.Environment;
 
     /**
      * @private
      * @type {string[]}
      * @memberof Command
      */
-    private readonly validFlags: string[] = ["host", "port", "database", "username", "password"];
+    readonly #validFlags: string[] = ["host", "port", "database", "username", "password"];
 
     /**
      * Configure the console command.
@@ -66,8 +66,8 @@ export class Command extends Commands.Command {
     public async execute(): Promise<void> {
         const envFile = this.app.getCorePath("config", ".env");
 
-        if (this.validFlags.some((flag: string) => this.hasFlag(flag))) {
-            this.environment.updateVariables(envFile, this.conform(this.getFlags()));
+        if (this.#validFlags.some((flag: string) => this.hasFlag(flag))) {
+            this.#environment.updateVariables(envFile, this.conform(this.getFlags()));
 
             return;
         }
@@ -84,7 +84,7 @@ export class Command extends Commands.Command {
                 name: "port",
                 message: "What port do you want to use?",
                 initial: 5432,
-                validate: /* istanbul ignore next */ value =>
+                validate: /* istanbul ignore next */ (value) =>
                     value < 1 || value > 65535 ? `The port must be in the range of 1-65535.` : true,
             },
             {
@@ -116,7 +116,7 @@ export class Command extends Commands.Command {
             this.components.fatal("You'll need to confirm the input to continue.");
         }
 
-        this.environment.updateVariables(envFile, this.conform(response));
+        this.#environment.updateVariables(envFile, this.conform(response));
     }
 
     /**
@@ -128,7 +128,7 @@ export class Command extends Commands.Command {
     private conform(flags: Contracts.AnyObject): Contracts.AnyObject {
         const variables: Contracts.AnyObject = {};
 
-        for (const option of this.validFlags) {
+        for (const option of this.#validFlags) {
             if (flags[option] !== undefined) {
                 variables[`CORE_DB_${option.toUpperCase()}`] = flags[option];
             }

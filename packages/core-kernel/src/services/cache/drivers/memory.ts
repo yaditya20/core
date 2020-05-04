@@ -17,14 +17,14 @@ export class MemoryCacheStore<K, T> implements CacheStore<K, T> {
      * @memberof BlockJob
      */
     @inject(Identifiers.EventDispatcherService)
-    private readonly eventDispatcher!: EventDispatcher;
+    readonly #eventDispatcher!: EventDispatcher;
 
     /**
      * @private
      * @type {Map<K, T>}
      * @memberof MemoryCacheStore
      */
-    private readonly store: Map<K, T> = new Map<K, T>();
+    readonly #store: Map<K, T> = new Map<K, T>();
 
     /**
      * Create a new instance of the cache store.

@@ -10,19 +10,19 @@ export class Initialize implements Action {
     public readonly app!: Contracts.Kernel.Application;
 
     @Container.inject(Container.Identifiers.LogService)
-    private readonly logger!: Contracts.Kernel.Logger;
+    readonly #logger!: Contracts.Kernel.Logger;
 
     @Container.inject(Container.Identifiers.BlockchainService)
-    private readonly blockchain!: Contracts.Blockchain.Blockchain;
+    readonly #blockchain!: Contracts.Blockchain.Blockchain;
 
     @Container.inject(Container.Identifiers.StateStore)
-    private readonly stateStore!: Contracts.State.StateStore;
+    readonly #stateStore!: Contracts.State.StateStore;
 
     @Container.inject(Container.Identifiers.TransactionPoolService)
-    private readonly transactionPool!: Contracts.TransactionPool.Service;
+    readonly #transactionPool!: Contracts.TransactionPool.Service;
 
     @Container.inject(Container.Identifiers.DatabaseService)
-    private readonly databaseService!: DatabaseService;
+    readonly #databaseService!: DatabaseService;
 
     public async handle(): Promise<void> {
         try {

@@ -40,14 +40,14 @@ export class Watcher {
      * @memberof Manager
      */
     @inject(Identifiers.Application)
-    private readonly app!: Application;
+    readonly #app!: Application;
 
     /**
      * @private
      * @type {nsfw}
      * @memberof Watcher
      */
-    private watcher: nsfw;
+    #watcher: nsfw;
 
     /**
      * @returns {Promise<void>}

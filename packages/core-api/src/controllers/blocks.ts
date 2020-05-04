@@ -9,16 +9,16 @@ import { Controller } from "./controller";
 @Container.injectable()
 export class BlocksController extends Controller {
     @Container.inject(Container.Identifiers.BlockchainService)
-    private readonly blockchain!: Contracts.Blockchain.Blockchain;
+    readonly #blockchain!: Contracts.Blockchain.Blockchain;
 
     @Container.inject(Container.Identifiers.BlockHistoryService)
-    private readonly blockHistoryService!: Contracts.Shared.BlockHistoryService;
+    readonly #blockHistoryService!: Contracts.Shared.BlockHistoryService;
 
     @Container.inject(Container.Identifiers.TransactionHistoryService)
-    private readonly transactionHistoryService!: Contracts.Shared.TransactionHistoryService;
+    readonly #transactionHistoryService!: Contracts.Shared.TransactionHistoryService;
 
     @Container.inject(Container.Identifiers.StateStore)
-    private readonly stateStore!: Contracts.State.StateStore;
+    readonly #stateStore!: Contracts.State.StateStore;
 
     public async index(request: Hapi.Request, h: Hapi.ResponseToolkit) {
         const blockListResult = await this.blockHistoryService.listByCriteria(

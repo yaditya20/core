@@ -31,7 +31,7 @@ export class RegisterServiceProviders implements Bootstrapper {
      * @memberof Local
      */
     @inject(Identifiers.Application)
-    private readonly app!: Application;
+    readonly #app!: Application;
 
     /**
      * @returns {Promise<void>}

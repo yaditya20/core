@@ -18,8 +18,8 @@ export interface RateLimiterConfigurations {
 
 // todo: review the implementation
 export class RateLimiter {
-    private global: RateLimiterMemory;
-    private endpoints: Map<string, RateLimiterMemory>;
+    #global: RateLimiterMemory;
+    #endpoints: Map<string, RateLimiterMemory>;
 
     public constructor({
         whitelist,

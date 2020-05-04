@@ -9,7 +9,7 @@ export class AttributeSet {
      * @type {Set<string>}
      * @memberof AttributeSet
      */
-    private readonly attributes: Set<string> = new Set<string>();
+    readonly #attributes: Set<string> = new Set<string>();
 
     /**
      * @returns {string[]}

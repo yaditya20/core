@@ -10,8 +10,8 @@ interface IRoute {
 }
 
 export class Ext {
-    private readonly routePathPrefix = "/api";
-    private readonly routes: IRoute[] = [
+    readonly #routePathPrefix = "/api";
+    readonly #routes: IRoute[] = [
         { method: "get", path: "/blocks" },
         { method: "get", path: "/blocks/{id}/transactions" },
         { method: "post", path: "/blocks/search" },
@@ -42,7 +42,7 @@ export class Ext {
         { method: "post", path: "/wallets/search" },
     ];
 
-    public constructor(private readonly config) {}
+    public constructor(readonly #config) {}
 
     public isValidRoute(request) {
         if (!this.hasPagination(request)) {

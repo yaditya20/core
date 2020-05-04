@@ -26,7 +26,7 @@ export class LoadServiceProviders implements Bootstrapper {
      * @memberof Local
      */
     @inject(Identifiers.Application)
-    private readonly app!: Application;
+    readonly #app!: Application;
 
     /**
      * @private
@@ -34,7 +34,7 @@ export class LoadServiceProviders implements Bootstrapper {
      * @memberof RegisterBasePaths
      */
     @inject(Identifiers.ConfigRepository)
-    private readonly configRepository!: ConfigRepository;
+    readonly #configRepository!: ConfigRepository;
 
     /**
      * @private
@@ -42,7 +42,7 @@ export class LoadServiceProviders implements Bootstrapper {
      * @memberof RegisterBasePaths
      */
     @inject(Identifiers.ServiceProviderRepository)
-    private readonly serviceProviderRepository!: ServiceProviderRepository;
+    readonly #serviceProviderRepository!: ServiceProviderRepository;
 
     /**
      * @returns {Promise<void>}

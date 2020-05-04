@@ -15,21 +15,21 @@ export class ChangeServiceProviderState implements EventListener {
      * @memberof BootServiceProviders
      */
     @inject(Identifiers.ServiceProviderRepository)
-    private readonly serviceProviders!: ServiceProviderRepository;
+    readonly #serviceProviders!: ServiceProviderRepository;
 
     /**
      * @private
      * @type {string}
      * @memberof ChangeServiceProviderState
      */
-    private name!: string;
+    #name!: string;
 
     /**
      * @private
      * @type {ServiceProvider}
      * @memberof ChangeServiceProviderState
      */
-    private serviceProvider!: ServiceProvider;
+    #serviceProvider!: ServiceProvider;
 
     /**
      * @param {string} name

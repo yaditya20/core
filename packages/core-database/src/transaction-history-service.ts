@@ -6,13 +6,13 @@ import { TransactionRepository } from "./repositories/transaction-repository";
 @Container.injectable()
 export class TransactionHistoryService implements Contracts.Shared.TransactionHistoryService {
     @Container.inject(Container.Identifiers.DatabaseTransactionRepository)
-    private readonly transactionRepository!: TransactionRepository;
+    readonly #transactionRepository!: TransactionRepository;
 
     @Container.inject(Container.Identifiers.DatabaseTransactionFilter)
-    private readonly transactionFilter!: Contracts.Database.TransactionFilter;
+    readonly #transactionFilter!: Contracts.Database.TransactionFilter;
 
     @Container.inject(Container.Identifiers.DatabaseTransactionModelConverter)
-    private readonly transactionModelConverter!: Contracts.Database.TransactionModelConverter;
+    readonly #transactionModelConverter!: Contracts.Database.TransactionModelConverter;
 
     public async findOneByCriteria(
         criteria: Contracts.Shared.OrTransactionCriteria,

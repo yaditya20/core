@@ -6,7 +6,7 @@ import { WalletRepository } from "./wallet-repository";
 export class WalletRepositoryClone extends WalletRepository {
     @Container.inject(Container.Identifiers.WalletRepository)
     @Container.tagged("state", "blockchain")
-    private readonly blockchainWalletRepository!: Contracts.State.WalletRepository;
+    readonly #blockchainWalletRepository!: Contracts.State.WalletRepository;
 
     @Container.postConstruct()
     public initialize(): void {

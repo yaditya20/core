@@ -17,7 +17,7 @@ export class Triggers {
      * @type {Map<string, Action>}
      * @memberof Actions
      */
-    private readonly triggers: Map<string, Action> = new Map<string, Action>();
+    readonly #triggers: Map<string, Action> = new Map<string, Action>();
 
     /**
      * Register a new trigger.

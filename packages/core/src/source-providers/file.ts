@@ -16,7 +16,7 @@ export class File implements Source {
      * @type {string}
      * @memberof File
      */
-    private readonly dataPath: string;
+    readonly #dataPath: string;
 
     /**
      * @param {{ data: string; temp?: string }} { data }

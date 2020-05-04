@@ -18,7 +18,7 @@ export class SuggestCommand {
      * @memberof ComponentFactory
      */
     @inject(Identifiers.Application)
-    private readonly app!: Application;
+    readonly #app!: Application;
 
     /**
      * @static

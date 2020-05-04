@@ -8,11 +8,11 @@ import { Controller } from "./controller";
 @Container.injectable()
 export class DelegatesController extends Controller {
     @Container.inject(Container.Identifiers.BlockHistoryService)
-    private readonly blockHistoryService!: Contracts.Shared.BlockHistoryService;
+    readonly #blockHistoryService!: Contracts.Shared.BlockHistoryService;
 
     @Container.inject(Container.Identifiers.WalletRepository)
     @Container.tagged("state", "blockchain")
-    private readonly walletRepository!: Contracts.State.WalletRepository;
+    readonly #walletRepository!: Contracts.State.WalletRepository;
 
     public async index(request: Hapi.Request, h: Hapi.ResponseToolkit) {
         const delegates = this.walletRepository.search(Contracts.State.SearchScope.Delegates, {

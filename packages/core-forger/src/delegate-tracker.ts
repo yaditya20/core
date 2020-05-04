@@ -15,7 +15,7 @@ export class DelegateTracker {
      * @memberof ForgerService
      */
     @Container.inject(Container.Identifiers.Application)
-    private readonly app!: Contracts.Kernel.Application;
+    readonly #app!: Contracts.Kernel.Application;
 
     /**
      * @private
@@ -23,7 +23,7 @@ export class DelegateTracker {
      * @memberof DelegateTracker
      */
     @Container.inject(Container.Identifiers.LogService)
-    private readonly logger!: Contracts.Kernel.Logger;
+    readonly #logger!: Contracts.Kernel.Logger;
 
     /**
      * @private
@@ -31,7 +31,7 @@ export class DelegateTracker {
      * @memberof DelegateTracker
      */
     @Container.inject(Container.Identifiers.BlockchainService)
-    private readonly blockchainService!: Contracts.Blockchain.Blockchain;
+    readonly #blockchainService!: Contracts.Blockchain.Blockchain;
 
     /**
      * @private
@@ -40,14 +40,14 @@ export class DelegateTracker {
      */
     @Container.inject(Container.Identifiers.WalletRepository)
     @Container.tagged("state", "blockchain")
-    private readonly walletRepository!: Contracts.State.WalletRepository;
+    readonly #walletRepository!: Contracts.State.WalletRepository;
 
     /**
      * @private
      * @type {Delegate[]}
      * @memberof DelegateTracker
      */
-    private delegates: Delegate[] = [];
+    #delegates: Delegate[] = [];
 
     /**
      * @param {Delegate[]} delegates

@@ -11,13 +11,13 @@ export class WalletRepository implements Contracts.State.WalletRepository {
     protected readonly indexes: Record<string, Contracts.State.WalletIndex> = {};
 
     @Container.multiInject(Container.Identifiers.WalletRepositoryIndexerIndex)
-    private readonly indexerIndexes!: Contracts.State.WalletIndexerIndex[];
+    readonly #indexerIndexes!: Contracts.State.WalletIndexerIndex[];
 
     @Container.inject(Container.Identifiers.WalletFactory)
-    private readonly createWalletFactory!: Contracts.State.WalletFactory;
+    readonly #createWalletFactory!: Contracts.State.WalletFactory;
 
     @Container.inject(Container.Identifiers.StateStore)
-    private readonly stateStore!: Contracts.State.StateStore;
+    readonly #stateStore!: Contracts.State.StateStore;
 
     @Container.postConstruct()
     public initialize(): void {

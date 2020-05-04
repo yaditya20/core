@@ -8,10 +8,10 @@ export class BlockchainReady implements Action {
     public readonly app!: Contracts.Kernel.Application;
 
     @Container.inject(Container.Identifiers.StateStore)
-    private readonly stateStore!: Contracts.State.StateStore;
+    readonly #stateStore!: Contracts.State.StateStore;
 
     @Container.inject(Container.Identifiers.EventDispatcherService)
-    private readonly eventDispatcher!: Contracts.Kernel.EventDispatcher;
+    readonly #eventDispatcher!: Contracts.Kernel.EventDispatcher;
 
     public async handle(): Promise<void> {
         if (!this.stateStore.started) {

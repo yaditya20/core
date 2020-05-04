@@ -16,21 +16,21 @@ export class Server {
      * @memberof Server
      */
     @Container.inject(Container.Identifiers.Application)
-    private readonly app!: Contracts.Kernel.Application;
+    readonly #app!: Contracts.Kernel.Application;
 
     /**
      * @private
      * @type {HapiServer}
      * @memberof Server
      */
-    private server!: HapiServer;
+    #server!: HapiServer;
 
     /**
      * @private
      * @type {string}
      * @memberof Server
      */
-    private name!: string;
+    #name!: string;
 
     /**
      * @param {string} name

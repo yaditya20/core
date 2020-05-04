@@ -15,7 +15,7 @@ export class RestartProcess {
      * @memberof Command
      */
     @inject(Identifiers.Application)
-    private readonly app!: Application;
+    readonly #app!: Application;
 
     /**
      * @private
@@ -23,7 +23,7 @@ export class RestartProcess {
      * @memberof Command
      */
     @inject(Identifiers.ProcessManager)
-    private readonly processManager!: ProcessManager;
+    readonly #processManager!: ProcessManager;
 
     /**
      * @static

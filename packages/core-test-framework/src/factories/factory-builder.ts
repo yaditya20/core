@@ -13,7 +13,7 @@ export class FactoryBuilder {
      * @type {Record<string, Factory>}
      * @memberof FactoryBuilder
      */
-    private readonly factories: Map<string, Factory> = new Map<string, Factory>();
+    readonly #factories: Map<string, Factory> = new Map<string, Factory>();
 
     /**
      * @param {string} factory

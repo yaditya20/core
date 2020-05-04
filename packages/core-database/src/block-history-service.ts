@@ -6,13 +6,13 @@ import { BlockRepository } from "./repositories";
 @Container.injectable()
 export class BlockHistoryService implements Contracts.Shared.BlockHistoryService {
     @Container.inject(Container.Identifiers.DatabaseBlockRepository)
-    private readonly blockRepository!: BlockRepository;
+    readonly #blockRepository!: BlockRepository;
 
     @Container.inject(Container.Identifiers.DatabaseBlockFilter)
-    private readonly blockFilter!: Contracts.Database.BlockFilter;
+    readonly #blockFilter!: Contracts.Database.BlockFilter;
 
     @Container.inject(Container.Identifiers.DatabaseBlockModelConverter)
-    private readonly blockModelConverter!: Contracts.Database.BlockModelConverter;
+    readonly #blockModelConverter!: Contracts.Database.BlockModelConverter;
 
     public async findOneByCriteria(
         criteria: Contracts.Shared.OrBlockCriteria,

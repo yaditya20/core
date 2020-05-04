@@ -7,31 +7,31 @@ import { ensureFileSync } from "fs-extra";
 export class Storage implements Contracts.TransactionPool.Storage {
     @Container.inject(Container.Identifiers.PluginConfiguration)
     @Container.tagged("plugin", "@arkecosystem/core-transaction-pool")
-    private readonly configuration!: Providers.PluginConfiguration;
+    readonly #configuration!: Providers.PluginConfiguration;
 
-    private database!: BetterSqlite3.Database;
+    #database!: BetterSqlite3.Database;
 
     public boot(): void {
-        const filename = this.configuration.getRequired<string>("storage");
+        const filename = this.#configuration.getRequired<string>("storage");
         ensureFileSync(filename);
 
-        this.database = new BetterSqlite3(filename);
-        this.database.exec(`
+        this.#database = new BetterSqlite3(filename);
+        this.#database.exec(`
             PRAGMA journal_mode = WAL;
             CREATE TABLE IF NOT EXISTS pool (id VARCHAR(64) PRIMARY KEY, serialized BLOB NOT NULL);
         `);
     }
 
     public dispose(): void {
-        this.database.close();
+        this.#database.close();
     }
 
     public hasTransaction(id: string): boolean {
-        return !!this.database.prepare("SELECT COUNT(*) FROM pool WHERE id = ?").pluck(true).get(id);
+        return !!this.#database.prepare("SELECT COUNT(*) FROM pool WHERE id = ?").pluck(true).get(id);
     }
 
     public getAllTransactions(): Iterable<Interfaces.ITransaction> {
-        return this.database
+        return this.#database
             .prepare("SELECT LOWER(HEX(serialized)) FROM pool")
             .pluck(true)
             .all()
@@ -39,17 +39,17 @@ export class Storage implements Contracts.TransactionPool.Storage {
     }
 
     public addTransaction(transaction: Interfaces.ITransaction): void {
-        this.database.prepare("INSERT INTO pool (id, serialized) VALUES (:id, :serialized)").run({
+        this.#database.prepare("INSERT INTO pool (id, serialized) VALUES (:id, :serialized)").run({
             id: transaction.id,
             serialized: transaction.serialized,
         });
     }
 
     public removeTransaction(id: string): void {
-        this.database.prepare("DELETE FROM pool WHERE id = ?").run(id);
+        this.#database.prepare("DELETE FROM pool WHERE id = ?").run(id);
     }
 
     public flush(): void {
-        this.database.prepare("DELETE FROM pool").run();
+        this.#database.prepare("DELETE FROM pool").run();
     }
 }

@@ -50,7 +50,7 @@ export class LocalConfigLoader implements ConfigLoader {
      * @memberof LoadCryptography
      */
     @inject(Identifiers.ConfigRepository)
-    private readonly configRepository!: ConfigRepository;
+    readonly #configRepository!: ConfigRepository;
 
     /**
      * @private
@@ -58,7 +58,7 @@ export class LocalConfigLoader implements ConfigLoader {
      * @memberof LoadCryptography
      */
     @inject(Identifiers.ValidationService)
-    private readonly validationService!: Validator;
+    readonly #validationService!: Validator;
 
     /**
      * @returns {Promise<void>}

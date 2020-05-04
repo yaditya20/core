@@ -8,78 +8,80 @@ import { createLock } from "./utils";
 export class SenderMempool implements Contracts.TransactionPool.SenderMempool {
     @Container.inject(Container.Identifiers.PluginConfiguration)
     @Container.tagged("plugin", "@arkecosystem/core-transaction-pool")
-    private readonly configuration!: Providers.PluginConfiguration;
+    readonly #configuration!: Providers.PluginConfiguration;
 
     @Container.inject(Container.Identifiers.TransactionPoolSenderState)
-    private readonly senderState!: Contracts.TransactionPool.SenderState;
+    readonly #senderState!: Contracts.TransactionPool.SenderState;
 
-    private readonly lock = createLock();
+    readonly #lock = createLock();
 
-    private readonly transactions: Interfaces.ITransaction[] = [];
+    readonly #transactions: Interfaces.ITransaction[] = [];
 
     public isEmpty(): boolean {
-        return this.transactions.length === 0;
+        return this.#transactions.length === 0;
     }
 
     public getSize(): number {
-        return this.transactions.length;
+        return this.#transactions.length;
     }
 
     public getFromEarliest(): Iterable<Interfaces.ITransaction> {
-        return this.transactions.slice();
+        return this.#transactions.slice();
     }
 
     public getFromLatest(): Iterable<Interfaces.ITransaction> {
-        return this.transactions.slice().reverse();
+        return this.#transactions.slice().reverse();
     }
 
     public async addTransaction(transaction: Interfaces.ITransaction): Promise<void> {
-        await this.lock(async () => {
+        await this.#lock(async () => {
             AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
 
-            const maxTransactionsPerSender: number = this.configuration.getRequired<number>("maxTransactionsPerSender");
-            if (this.transactions.length >= maxTransactionsPerSender) {
-                const allowedSenders: string[] = this.configuration.getOptional<string[]>("allowedSenders", []);
+            const maxTransactionsPerSender: number = this.#configuration.getRequired<number>(
+                "maxTransactionsPerSender",
+            );
+            if (this.#transactions.length >= maxTransactionsPerSender) {
+                const allowedSenders: string[] = this.#configuration.getOptional<string[]>("allowedSenders", []);
                 if (!allowedSenders.includes(transaction.data.senderPublicKey)) {
                     throw new SenderExceededMaximumTransactionCountError(transaction, maxTransactionsPerSender);
                 }
             }
 
-            await this.senderState.apply(transaction);
-            this.transactions.push(transaction);
+            await this.#senderState.apply(transaction);
+            this.#transactions.push(transaction);
         });
     }
 
     public async removeTransaction(transaction: Interfaces.ITransaction): Promise<Interfaces.ITransaction[]> {
-        return await this.lock(async () => {
-            const index = this.transactions.findIndex((t) => t.id === transaction.id);
+        return await this.#lock(async () => {
+            const index = this.#transactions.findIndex((t) => t.id === transaction.id);
             if (index === -1) {
                 return [];
             }
 
-            const removedTransactions: Interfaces.ITransaction[] = this.transactions
-                .splice(index, this.transactions.length - index)
+            const removedTransactions: Interfaces.ITransaction[] = this.#transactions
+                .splice(index, this.#transactions.length - index)
                 .reverse();
 
             try {
                 for (const removedTransaction of removedTransactions) {
-                    await this.senderState.revert(removedTransaction);
+                    await this.#senderState.revert(removedTransaction);
                 }
                 return removedTransactions;
             } catch (error) {
-                const otherRemovedTransactions = this.transactions.splice(0, this.transactions.length).reverse();
+                const otherRemovedTransactions = this.#transactions.splice(0, this.#transactions.length).reverse();
                 return [...removedTransactions, ...otherRemovedTransactions];
             }
         });
     }
 
     public async acceptForgedTransaction(transaction: Interfaces.ITransaction): Promise<Interfaces.ITransaction[]> {
-        return await this.lock(async () => {
-            const index: number = this.transactions.findIndex((t) => t.id === transaction.id);
+        return await this.#lock(async () => {
+            const index: number = this.#transactions.findIndex((t) => t.id === transaction.id);
             if (index === -1) {
-                return this.transactions.splice(0, this.transactions.length);
+                return this.#transactions.splice(0, this.#transactions.length);
             } else {
-                return this.transactions.splice(0, index + 1);
+                return this.#transactions.splice(0, index + 1);
             }
         });
     }

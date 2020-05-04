@@ -18,7 +18,7 @@ export class ConfigRepository {
      * @type {JsonObject}
      * @memberof ConfigRepository
      */
-    private items: JsonObject = {};
+    #items: JsonObject = {};
 
     /**
      * Get all configuration values.

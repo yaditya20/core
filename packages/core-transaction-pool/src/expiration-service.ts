@@ -8,10 +8,10 @@ export class ExpirationService {
 
     @Container.inject(Container.Identifiers.PluginConfiguration)
     @Container.tagged("plugin", "@arkecosystem/core-transaction-pool")
-    private readonly configuration!: Providers.PluginConfiguration;
+    readonly #configuration!: Providers.PluginConfiguration;
 
     @Container.inject(Container.Identifiers.StateStore)
-    private readonly stateStore!: Contracts.State.StateStore;
+    readonly #stateStore!: Contracts.State.StateStore;
 
     public canExpire(transaction: Interfaces.ITransaction): boolean {
         if (transaction.data.version && transaction.data.version >= 2) {

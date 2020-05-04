@@ -13,7 +13,7 @@ export class Logger {
      * @memberof DiscoverCommands
      */
     @inject(Identifiers.Output)
-    private readonly output!: Output;
+    readonly #output!: Output;
 
     /**
      * @param {(string | Error)} message

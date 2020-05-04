@@ -16,7 +16,7 @@ import { MagistrateTransactionHandler } from "./magistrate-handler";
 @Container.injectable()
 export class BusinessRegistrationTransactionHandler extends MagistrateTransactionHandler {
     @Container.inject(Container.Identifiers.TransactionPoolQuery)
-    private readonly poolQuery!: Contracts.TransactionPool.Query;
+    readonly #poolQuery!: Contracts.TransactionPool.Query;
 
     public dependencies(): ReadonlyArray<Handlers.TransactionHandlerConstructor> {
         return [];
@@ -70,7 +70,7 @@ export class BusinessRegistrationTransactionHandler extends MagistrateTransactio
     public async throwIfCannotEnterPool(transaction: Interfaces.ITransaction): Promise<void> {
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
 
-        const hasSender: boolean = this.poolQuery
+        const hasSender: boolean = this.#poolQuery
             .getAllBySender(transaction.data.senderPublicKey)
             .whereKind(transaction)
             .has();

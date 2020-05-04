@@ -21,7 +21,7 @@ export class LoadCryptography implements Bootstrapper {
      * @memberof Local
      */
     @inject(Identifiers.Application)
-    private readonly app!: Application;
+    readonly #app!: Application;
 
     /**
      * The application configuration.
@@ -31,7 +31,7 @@ export class LoadCryptography implements Bootstrapper {
      * @memberof LoadCryptography
      */
     @inject(Identifiers.ConfigRepository)
-    private readonly configRepository!: ConfigRepository;
+    readonly #configRepository!: ConfigRepository;
 
     /**
      * @returns {Promise<void>}

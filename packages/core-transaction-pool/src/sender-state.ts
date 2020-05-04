@@ -15,23 +15,23 @@ import {
 @Container.injectable()
 export class SenderState implements Contracts.TransactionPool.SenderState {
     @Container.inject(Container.Identifiers.Application)
-    private readonly app!: Contracts.Kernel.Application;
+    readonly #app!: Contracts.Kernel.Application;
 
     @Container.inject(Container.Identifiers.PluginConfiguration)
     @Container.tagged("plugin", "@arkecosystem/core-transaction-pool")
-    private readonly configuration!: Providers.PluginConfiguration;
+    readonly #configuration!: Providers.PluginConfiguration;
 
     @Container.inject(Container.Identifiers.TransactionHandlerRegistry)
     @Container.tagged("state", "copy-on-write")
-    private readonly handlerRegistry!: Handlers.Registry;
+    readonly #handlerRegistry!: Handlers.Registry;
 
     @Container.inject(Container.Identifiers.TransactionPoolExpirationService)
-    private readonly expirationService!: Contracts.TransactionPool.ExpirationService;
+    readonly #expirationService!: Contracts.TransactionPool.ExpirationService;
 
-    private corrupt = false;
+    #corrupt = false;
 
     public async apply(transaction: Interfaces.ITransaction): Promise<void> {
-        const maxTransactionBytes: number = this.configuration.getRequired<number>("maxTransactionBytes");
+        const maxTransactionBytes: number = this.#configuration.getRequired<number>("maxTransactionBytes");
         if (JSON.stringify(transaction.data).length > maxTransactionBytes) {
             throw new TransactionExceedsMaximumByteSizeError(transaction, maxTransactionBytes);
         }
@@ -47,30 +47,30 @@ export class SenderState implements Contracts.TransactionPool.SenderState {
             throw new TransactionFromFutureError(transaction, secondsInFuture);
         }
 
-        if (await this.expirationService.isExpired(transaction)) {
-            const expirationHeight: number = await this.expirationService.getExpirationHeight(transaction);
+        if (await this.#expirationService.isExpired(transaction)) {
+            const expirationHeight: number = await this.#expirationService.getExpirationHeight(transaction);
             throw new TransactionHasExpiredError(transaction, expirationHeight);
         }
 
-        const handler: Handlers.TransactionHandler = await this.handlerRegistry.getActivatedHandlerForData(
+        const handler: Handlers.TransactionHandler = await this.#handlerRegistry.getActivatedHandlerForData(
             transaction.data,
         );
 
         if (
-            await this.app
+            await this.#app
                 .get<Services.Triggers.Triggers>(Container.Identifiers.TriggerService)
                 .call("verifyTransaction", { handler, transaction })
         ) {
-            if (this.corrupt) {
+            if (this.#corrupt) {
                 throw new RetryTransactionError(transaction);
             }
 
             try {
-                await this.app
+                await this.#app
                     .get<Services.Triggers.Triggers>(Container.Identifiers.TriggerService)
                     .call("throwIfCannotEnterPool", { handler, transaction });
 
-                await this.app
+                await this.#app
                     .get<Services.Triggers.Triggers>(Container.Identifiers.TriggerService)
                     .call("applyTransaction", { handler, transaction });
             } catch (error) {
@@ -83,15 +83,15 @@ export class SenderState implements Contracts.TransactionPool.SenderState {
 
     public async revert(transaction: Interfaces.ITransaction): Promise<void> {
         try {
-            const handler: Handlers.TransactionHandler = await this.handlerRegistry.getActivatedHandlerForData(
+            const handler: Handlers.TransactionHandler = await this.#handlerRegistry.getActivatedHandlerForData(
                 transaction.data,
             );
 
-            await this.app
+            await this.#app
                 .get<Services.Triggers.Triggers>(Container.Identifiers.TriggerService)
                 .call("revertTransaction", { handler, transaction });
         } catch (error) {
-            this.corrupt = true;
+            this.#corrupt = true;
             throw error;
         }
     }

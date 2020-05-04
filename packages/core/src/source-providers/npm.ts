@@ -17,14 +17,14 @@ export class NPM implements Source {
      * @type {string}
      * @memberof NPM
      */
-    private readonly dataPath: string;
+    readonly #dataPath: string;
 
     /**
      * @private
      * @type {(string | undefined)}
      * @memberof NPM
      */
-    private readonly tempPath: string | undefined;
+    readonly #tempPath: string | undefined;
 
     /**
      * @param {{ data: string; temp?: string }} { data, temp }

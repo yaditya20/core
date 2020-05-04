@@ -28,7 +28,7 @@ export abstract class ServiceProvider {
      * @type {PluginConfiguration}
      * @memberof ServiceProvider
      */
-    private packageConfiguration!: PluginConfiguration;
+    #packageConfiguration!: PluginConfiguration;
 
     /**
      * The loaded manifest.
@@ -37,7 +37,7 @@ export abstract class ServiceProvider {
      * @type {PluginManifest}
      * @memberof PluginManifest
      */
-    private packageManifest!: PluginManifest;
+    #packageManifest!: PluginManifest;
 
     /**
      * Boot the service provider.

@@ -15,7 +15,7 @@ export class ForgerService {
      * @memberof ForgerService
      */
     @Container.inject(Container.Identifiers.Application)
-    private readonly app!: Contracts.Kernel.Application;
+    readonly #app!: Contracts.Kernel.Application;
 
     /**
      * @private
@@ -23,49 +23,49 @@ export class ForgerService {
      * @memberof ForgerService
      */
     @Container.inject(Container.Identifiers.LogService)
-    private readonly logger!: Contracts.Kernel.Logger;
+    readonly #logger!: Contracts.Kernel.Logger;
 
     /**
      * @private
      * @type {Client}
      * @memberof ForgerService
      */
-    private client!: Client;
+    #client!: Client;
 
     /**
      * @private
      * @type {Delegate[]}
      * @memberof ForgerService
      */
-    private delegates: Delegate[] = [];
+    #delegates: Delegate[] = [];
 
     /**
      * @private
      * @type {{ [key: string]: string }}
      * @memberof ForgerService
      */
-    private usernames: { [key: string]: string } = {};
+    #usernames: { [key: string]: string } = {};
 
     /**
      * @private
      * @type {boolean}
      * @memberof ForgerService
      */
-    private isStopped: boolean = false;
+    #isStopped: boolean = false;
 
     /**
      * @private
      * @type {(Contracts.P2P.CurrentRound | undefined)}
      * @memberof ForgerService
      */
-    private round: Contracts.P2P.CurrentRound | undefined;
+    #round: Contracts.P2P.CurrentRound | undefined;
 
     /**
      * @private
      * @type {boolean}
      * @memberof ForgerService
      */
-    private initialized: boolean = false;
+    #initialized: boolean = false;
 
     /**
      * @param {*} options

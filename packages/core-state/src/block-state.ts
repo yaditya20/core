@@ -6,7 +6,7 @@ import { Enums, Identities, Interfaces, Utils } from "@arkecosystem/crypto";
 @Container.injectable()
 export class BlockState {
     // @Container.inject(Container.Identifiers.Application)
-    // private readonly app!: Contracts.Kernel.Application;
+    // readonly #app!: Contracts.Kernel.Application;
 
     @Container.inject(Container.Identifiers.WalletRepository)
     @Container.tagged("state", "blockchain") // TODO: Without this line - and despite

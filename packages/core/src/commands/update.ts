@@ -31,7 +31,7 @@ export class Command extends Commands.Command {
      * @memberof Command
      */
     @Container.inject(Container.Identifiers.Updater)
-    private readonly updater!: Contracts.Updater;
+    readonly #updater!: Contracts.Updater;
 
     /**
      * Configure the console command.

@@ -14,7 +14,7 @@ export class AskDate {
      * @memberof Command
      */
     @inject(Identifiers.Application)
-    private readonly app!: Application;
+    readonly #app!: Application;
 
     /**
      * @static

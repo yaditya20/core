@@ -6,21 +6,21 @@ export abstract class Action<T = any> {
      * @type {Set<Function>}
      * @memberof Action
      */
-    private readonly beforeHooks: Set<Function> = new Set<Function>();
+    readonly #beforeHooks: Set<Function> = new Set<Function>();
 
     /**
      * @private
      * @type {Set<Function>}
      * @memberof Action
      */
-    private readonly errorHooks: Set<Function> = new Set<Function>();
+    readonly #errorHooks: Set<Function> = new Set<Function>();
 
     /**
      * @private
      * @type {Set<Function>}
      * @memberof Action
      */
-    private readonly afterHooks: Set<Function> = new Set<Function>();
+    readonly #afterHooks: Set<Function> = new Set<Function>();
 
     /**
      * @param {Function} fn

@@ -15,7 +15,7 @@ export class Box {
      * @memberof Command
      */
     @inject(Identifiers.Logger)
-    private readonly logger!: Logger;
+    readonly #logger!: Logger;
 
     /**
      * @static

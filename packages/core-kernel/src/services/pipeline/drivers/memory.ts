@@ -13,7 +13,7 @@ export class MemoryPipeline implements Pipeline {
      * @param {(Array<Function | Stage>)} stages
      * @memberof MemoryPipeline
      */
-    public constructor(private readonly stages: Array<Function | Stage> = []) {}
+    public constructor(readonly #stages: Array<Function | Stage> = []) {}
 
     /**
      * Create a new pipeline with an appended stage.

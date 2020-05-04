@@ -26,14 +26,14 @@ export class Sandbox {
      * @type {Container.interfaces.Container}
      * @memberof Sandbox
      */
-    private readonly container: Container.interfaces.Container;
+    readonly #container: Container.interfaces.Container;
 
     /**
      * @private
      * @type {ConfigPaths}
      * @memberof Sandbox
      */
-    private paths!: {
+    #paths!: {
         core: CoreConfigPaths;
         crypto: CryptoConfigPaths;
     };
@@ -43,7 +43,7 @@ export class Sandbox {
      * @type {ConfigPaths}
      * @memberof Sandbox
      */
-    private readonly options: SandboxOptions = {
+    readonly #options: SandboxOptions = {
         core: {},
         crypto: {
             flags: {

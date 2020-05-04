@@ -31,7 +31,7 @@ export class Command extends Commands.Command {
      * @memberof Command
      */
     @Container.inject(Container.Identifiers.Environment)
-    private readonly environment!: Services.Environment;
+    readonly #environment!: Services.Environment;
 
     /**
      * Configure the console command.
@@ -46,16 +46,12 @@ export class Command extends Commands.Command {
             .setFlag(
                 "key",
                 "The environment variable that you wish to set.",
-                Joi.alternatives()
-                    .try(Joi.string(), Joi.number())
-                    .required(),
+                Joi.alternatives().try(Joi.string(), Joi.number()).required(),
             )
             .setFlag(
                 "value",
                 "The value that you wish to set the environment variable to.",
-                Joi.alternatives()
-                    .try(Joi.string(), Joi.number())
-                    .required(),
+                Joi.alternatives().try(Joi.string(), Joi.number()).required(),
             );
     }
 
@@ -66,7 +62,7 @@ export class Command extends Commands.Command {
      * @memberof Command
      */
     public async execute(): Promise<void> {
-        this.environment.updateVariables(this.app.getCorePath("config", ".env"), {
+        this.#environment.updateVariables(this.app.getCorePath("config", ".env"), {
             [this.getFlag("key")]: this.getFlag("value"),
         });
     }

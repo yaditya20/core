@@ -57,7 +57,7 @@ export class Input {
      * @type {InputArgument}
      * @memberof Input
      */
-    private definition!: InputDefinition;
+    #definition!: InputDefinition;
 
     /**
      * The raw input arguments.
@@ -66,7 +66,7 @@ export class Input {
      * @type {InputArgument}
      * @memberof Input
      */
-    private rawArgs: string[] = [];
+    #rawArgs: string[] = [];
 
     /**
      * The raw input flags.
@@ -75,7 +75,7 @@ export class Input {
      * @type {InputArgument}
      * @memberof Input
      */
-    private rawFlags: object = {};
+    #rawFlags: object = {};
 
     /**
      * Parse the command line arguments.

@@ -6,17 +6,17 @@ import { PeerCommunicator } from "./peer-communicator";
 @Container.injectable()
 export class TransactionBroadcaster implements Contracts.P2P.TransactionBroadcaster {
     @Container.inject(Container.Identifiers.LogService)
-    private readonly logger!: Contracts.Kernel.Logger;
+    readonly #logger!: Contracts.Kernel.Logger;
 
     @Container.inject(Container.Identifiers.PluginConfiguration)
     @Container.tagged("plugin", "@arkecosystem/core-p2p")
-    private readonly configuration!: Providers.PluginConfiguration;
+    readonly #configuration!: Providers.PluginConfiguration;
 
     @Container.inject(Container.Identifiers.PeerStorage)
-    private readonly storage!: Contracts.P2P.PeerStorage;
+    readonly #storage!: Contracts.P2P.PeerStorage;
 
     @Container.inject(Container.Identifiers.PeerCommunicator)
-    private readonly communicator!: PeerCommunicator;
+    readonly #communicator!: PeerCommunicator;
 
     public async broadcastTransactions(transactions: Interfaces.ITransaction[]): Promise<void> {
         if (transactions.length === 0) {

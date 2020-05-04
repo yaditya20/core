@@ -20,14 +20,14 @@ export class Output {
      * @type {number}
      * @memberof Output
      */
-    private verbosity: number = OutputVerbosity.Normal;
+    #verbosity: number = OutputVerbosity.Normal;
 
     /**
      * @private
      * @type {Function}
      * @memberof Output
      */
-    private realStdout: Function = process.stdout.write;
+    #realStdout: Function = process.stdout.write;
 
     /**
      * Mutes writing to stdout.

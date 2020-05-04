@@ -5,8 +5,8 @@ import assert from "assert";
 // todo: review its implementation and finally integrate it as planned in v2
 @Container.injectable()
 export class BlockStore {
-    private readonly byId: Utils.CappedMap<string, Interfaces.IBlockData>;
-    private readonly byHeight: Utils.CappedMap<number, Interfaces.IBlockData>;
+    readonly #byId: Utils.CappedMap<string, Interfaces.IBlockData>;
+    readonly #byHeight: Utils.CappedMap<number, Interfaces.IBlockData>;
     private lastBlock: Interfaces.IBlock | undefined;
 
     public constructor(maxSize: number) {

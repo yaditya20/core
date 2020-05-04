@@ -2,7 +2,7 @@ import { Container, Contracts } from "@arkecosystem/core-kernel";
 import { ensureFileSync, existsSync } from "fs-extra";
 import lowdb from "lowdb";
 import FileSync from "lowdb/adapters/FileSync";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 import { Webhook } from "./interfaces";
 
@@ -18,27 +18,27 @@ export class Database {
      * @memberof Database
      */
     @Container.inject(Container.Identifiers.Application)
-    private readonly app!: Contracts.Kernel.Application;
+    readonly #app!: Contracts.Kernel.Application;
 
     /**
      * @private
      * @type {lowdb.LowdbSync<any>}
      * @memberof Database
      */
-    private database: lowdb.LowdbSync<any>;
+    #database: lowdb.LowdbSync<any>;
 
     /**
      * @memberof Database
      */
     public boot() {
-        const adapterFile: string = this.app.cachePath("webhooks.json");
+        const adapterFile: string = this.#app.cachePath("webhooks.json");
 
         if (!existsSync(adapterFile)) {
             ensureFileSync(adapterFile);
         }
 
-        this.database = lowdb(new FileSync(adapterFile));
-        this.database.defaults({ webhooks: [] }).write();
+        this.#database = lowdb(new FileSync(adapterFile));
+        this.#database.defaults({ webhooks: [] }).write();
     }
 
     /**
@@ -46,7 +46,7 @@ export class Database {
      * @memberof Database
      */
     public all(): Webhook[] {
-        return this.database.get("webhooks", []).value();
+        return this.#database.get("webhooks", []).value();
     }
 
     /**
@@ -64,7 +64,7 @@ export class Database {
      * @memberof Database
      */
     public findById(id: string): Webhook | undefined {
-        return this.database.get("webhooks").find({ id }).value();
+        return this.#database.get("webhooks").find({ id }).value();
     }
 
     /**
@@ -73,7 +73,7 @@ export class Database {
      * @memberof Database
      */
     public findByEvent(event: string): Webhook[] {
-        return this.database.get("webhooks").filter({ event }).value();
+        return this.#database.get("webhooks").filter({ event }).value();
     }
 
     /**
@@ -84,7 +84,7 @@ export class Database {
     public create(data: Webhook): Webhook | undefined {
         data.id = uuidv4();
 
-        this.database.get("webhooks").push(data).write();
+        this.#database.get("webhooks").push(data).write();
 
         return this.findById(data.id);
     }
@@ -96,7 +96,7 @@ export class Database {
      * @memberof Database
      */
     public update(id: string, data: Webhook): Webhook {
-        return this.database.get("webhooks").find({ id }).assign(data).write();
+        return this.#database.get("webhooks").find({ id }).assign(data).write();
     }
 
     /**
@@ -104,6 +104,6 @@ export class Database {
      * @memberof Database
      */
     public destroy(id: string): void {
-        this.database.get("webhooks").remove({ id }).write();
+        this.#database.get("webhooks").remove({ id }).write();
     }
 }

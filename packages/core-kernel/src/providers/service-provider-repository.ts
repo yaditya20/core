@@ -20,7 +20,7 @@ export class ServiceProviderRepository {
      * @memberof ServiceProviderRepository
      */
     @inject(Identifiers.Application)
-    private readonly app!: Application;
+    readonly #app!: Application;
 
     /**
      * @private
@@ -28,7 +28,7 @@ export class ServiceProviderRepository {
      * @memberof ServiceProviderRepository
      */
     @inject(Identifiers.EventDispatcherService)
-    private readonly eventDispatcher!: EventDispatcher;
+    readonly #eventDispatcher!: EventDispatcher;
 
     /**
      * All of the registered service providers.
@@ -37,7 +37,7 @@ export class ServiceProviderRepository {
      * @type {Map<string, ServiceProvider>}
      * @memberof ServiceProviderRepository
      */
-    private readonly serviceProviders: Map<string, ServiceProvider> = new Map<string, ServiceProvider>();
+    readonly #serviceProviders: Map<string, ServiceProvider> = new Map<string, ServiceProvider>();
 
     /**
      * The names of the loaded service providers.
@@ -46,7 +46,7 @@ export class ServiceProviderRepository {
      * @type {Set<string>}
      * @memberof ServiceProviderRepository
      */
-    private readonly loadedProviders: Set<string> = new Set<string>();
+    readonly #loadedProviders: Set<string> = new Set<string>();
 
     /**
      * The names of the failed service providers.
@@ -55,7 +55,7 @@ export class ServiceProviderRepository {
      * @type {Map<string, ServiceProvider>}
      * @memberof ServiceProviderRepository
      */
-    private readonly failedProviders: Set<string> = new Set<string>();
+    readonly #failedProviders: Set<string> = new Set<string>();
 
     /**
      * The names of the deferred service providers.
@@ -64,7 +64,7 @@ export class ServiceProviderRepository {
      * @type {Map<string, ServiceProvider>}
      * @memberof ServiceProviderRepository
      */
-    private readonly deferredProviders: Set<string> = new Set<string>();
+    readonly #deferredProviders: Set<string> = new Set<string>();
 
     /**
      * All of the registered service provider aliases.
@@ -73,7 +73,7 @@ export class ServiceProviderRepository {
      * @type {Map<string, string>}
      * @memberof ServiceProviderRepository
      */
-    private readonly aliases: Map<string, string> = new Map<string, string>();
+    readonly #aliases: Map<string, string> = new Map<string, string>();
 
     /**
      * @returns {Array<[string, ServiceProvider]>}

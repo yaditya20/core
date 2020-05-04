@@ -15,7 +15,7 @@ export class Git implements Source {
      * @type {string}
      * @memberof Git
      */
-    private readonly dataPath: string;
+    readonly #dataPath: string;
 
     /**
      * @param {{ data: string; temp?: string }} { data }

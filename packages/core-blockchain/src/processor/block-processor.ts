@@ -24,16 +24,16 @@ export enum BlockProcessorResult {
 @Container.injectable()
 export class BlockProcessor {
     @Container.inject(Container.Identifiers.Application)
-    private readonly app!: Contracts.Kernel.Application;
+    readonly #app!: Contracts.Kernel.Application;
 
     @Container.inject(Container.Identifiers.LogService)
-    private readonly logger!: Contracts.Kernel.Logger;
+    readonly #logger!: Contracts.Kernel.Logger;
 
     @Container.inject(Container.Identifiers.BlockchainService)
-    private readonly blockchain!: Contracts.Blockchain.Blockchain;
+    readonly #blockchain!: Contracts.Blockchain.Blockchain;
 
     @Container.inject(Container.Identifiers.DatabaseTransactionRepository)
-    private readonly transactionRepository!: Repositories.TransactionRepository;
+    readonly #transactionRepository!: Repositories.TransactionRepository;
 
     public async process(block: Interfaces.IBlock): Promise<BlockProcessorResult> {
         if (Utils.isException(block.data.id)) {

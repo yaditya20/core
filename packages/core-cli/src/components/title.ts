@@ -15,7 +15,7 @@ export class Title {
      * @memberof Command
      */
     @inject(Identifiers.Logger)
-    private readonly logger!: Logger;
+    readonly #logger!: Logger;
 
     /**
      * @param {string} title

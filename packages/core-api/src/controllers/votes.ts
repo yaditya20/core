@@ -9,7 +9,7 @@ import { Controller } from "./controller";
 @Container.injectable()
 export class VotesController extends Controller {
     @Container.inject(Container.Identifiers.TransactionHistoryService)
-    private readonly transactionHistoryService!: Contracts.Shared.TransactionHistoryService;
+    readonly #transactionHistoryService!: Contracts.Shared.TransactionHistoryService;
 
     public async index(request: Hapi.Request, h: Hapi.ResponseToolkit) {
         const criteria = {

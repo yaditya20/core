@@ -12,14 +12,14 @@ export class InputDefinition {
      * @type {InputArguments}
      * @memberof InputDefinition
      */
-    private readonly arguments: InputArguments = {};
+    readonly #arguments: InputArguments = {};
 
     /**
      * @private
      * @type {InputArguments}
      * @memberof InputDefinition
      */
-    private readonly flags: InputArguments = {};
+    readonly #flags: InputArguments = {};
 
     /**
      * @returns {InputArguments}

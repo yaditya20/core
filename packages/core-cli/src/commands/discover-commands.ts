@@ -16,7 +16,7 @@ export class DiscoverCommands {
      * @memberof DiscoverCommands
      */
     @inject(Identifiers.Application)
-    private readonly app!: Application;
+    readonly #app!: Application;
 
     /**
      * @param {Context} context

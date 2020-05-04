@@ -13,21 +13,21 @@ export class Factory {
      * @type {Map<string, FactoryFunction>}
      * @memberof Factory
      */
-    private readonly states: Map<string, FactoryFunction> = new Map<string, FactoryFunction>();
+    readonly #states: Map<string, FactoryFunction> = new Map<string, FactoryFunction>();
 
     /**
      * @private
      * @type {Map<string, Set<HookFunction>>}
      * @memberof Factory
      */
-    private readonly hooks: Map<string, Set<HookFunction>> = new Map<string, Set<HookFunction>>();
+    readonly #hooks: Map<string, Set<HookFunction>> = new Map<string, Set<HookFunction>>();
 
     /**
      * @private
      * @type {{ states: Set<string>; attributes: object; options: FactoryFunctionOptions }}
      * @memberof Factory
      */
-    private readonly modifiers: {
+    readonly #modifiers: {
         states: Set<string>;
         attributes: object;
         options: FactoryFunctionOptions;

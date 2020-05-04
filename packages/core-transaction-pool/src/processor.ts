@@ -12,17 +12,17 @@ export class Processor implements Contracts.TransactionPool.Processor {
     public errors?: { [id: string]: Contracts.TransactionPool.ProcessorError };
 
     @Container.inject(Container.Identifiers.LogService)
-    private readonly logger!: Contracts.Kernel.Logger;
+    readonly #logger!: Contracts.Kernel.Logger;
 
     @Container.inject(Container.Identifiers.TransactionPoolService)
-    private readonly pool!: Contracts.TransactionPool.Service;
+    readonly #pool!: Contracts.TransactionPool.Service;
 
     @Container.inject(Container.Identifiers.TransactionPoolDynamicFeeMatcher)
-    private readonly dynamicFeeMatcher!: Contracts.TransactionPool.DynamicFeeMatcher;
+    readonly #dynamicFeeMatcher!: Contracts.TransactionPool.DynamicFeeMatcher;
 
     @Container.inject(Container.Identifiers.PeerTransactionBroadcaster)
     @Container.optional()
-    private readonly transactionBroadcaster!: Contracts.P2P.TransactionBroadcaster | undefined;
+    readonly #transactionBroadcaster!: Contracts.P2P.TransactionBroadcaster | undefined;
 
     public async process(data: Interfaces.ITransactionData[]): Promise<void> {
         const broadcastableTransactions: Interfaces.ITransaction[] = [];
@@ -33,10 +33,10 @@ export class Processor implements Contracts.TransactionPool.Processor {
                 AppUtils.assert.defined<string>(transaction.id);
 
                 try {
-                    if (await this.dynamicFeeMatcher.canEnterPool(transaction)) {
-                        await this.pool.addTransaction(transaction);
+                    if (await this.#dynamicFeeMatcher.canEnterPool(transaction)) {
+                        await this.#pool.addTransaction(transaction);
                         this.accept.push(transaction.id);
-                        if (await this.dynamicFeeMatcher.canBroadcast(transaction)) {
+                        if (await this.#dynamicFeeMatcher.canBroadcast(transaction)) {
                             broadcastableTransactions.push(transaction);
                         }
                     } else {
@@ -56,16 +56,16 @@ export class Processor implements Contracts.TransactionPool.Processor {
                             message: error.message,
                         };
 
-                        this.logger.warning(`${transaction} failed to enter pool: ${error.message}`);
+                        this.#logger.warning(`${transaction} failed to enter pool: ${error.message}`);
                     } else {
-                        this.logger.error(`${transaction} caused error entering pool: ${error.stack}`);
+                        this.#logger.error(`${transaction} caused error entering pool: ${error.stack}`);
                         throw error;
                     }
                 }
             }
         } finally {
-            if (this.transactionBroadcaster && broadcastableTransactions.length !== 0) {
-                await this.transactionBroadcaster.broadcastTransactions(broadcastableTransactions);
+            if (this.#transactionBroadcaster && broadcastableTransactions.length !== 0) {
+                await this.#transactionBroadcaster.broadcastTransactions(broadcastableTransactions);
                 for (const transaction of broadcastableTransactions) {
                     AppUtils.assert.defined<string>(transaction.id);
                     this.broadcast.push(transaction.id);

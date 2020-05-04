@@ -17,10 +17,10 @@ import { MagistrateTransactionHandler } from "./magistrate-handler";
 @Container.injectable()
 export class BusinessUpdateTransactionHandler extends MagistrateTransactionHandler {
     @Container.inject(Container.Identifiers.TransactionPoolQuery)
-    private readonly poolQuery!: Contracts.TransactionPool.Query;
+    readonly #poolQuery!: Contracts.TransactionPool.Query;
 
     @Container.inject(Container.Identifiers.TransactionHistoryService)
-    private readonly transactionHistoryService!: Contracts.Shared.TransactionHistoryService;
+    readonly #transactionHistoryService!: Contracts.Shared.TransactionHistoryService;
 
     public dependencies(): ReadonlyArray<Handlers.TransactionHandlerConstructor> {
         return [BusinessRegistrationTransactionHandler];
@@ -76,7 +76,7 @@ export class BusinessUpdateTransactionHandler extends MagistrateTransactionHandl
     public async throwIfCannotEnterPool(transaction: Interfaces.ITransaction): Promise<void> {
         Utils.assert.defined<string>(transaction.data.senderPublicKey);
 
-        const hasSender: boolean = this.poolQuery
+        const hasSender: boolean = this.#poolQuery
             .getAllBySender(transaction.data.senderPublicKey)
             .whereKind(transaction)
             .has();
@@ -132,7 +132,7 @@ export class BusinessUpdateTransactionHandler extends MagistrateTransactionHandl
         const sender: Contracts.State.Wallet = walletRepository.findByPublicKey(transaction.data.senderPublicKey);
         Utils.assert.defined<string>(sender.publicKey);
 
-        const businessTransactions = await this.transactionHistoryService.findManyByCriteria([
+        const businessTransactions = await this.#transactionHistoryService.findManyByCriteria([
             {
                 senderPublicKey: sender.publicKey,
                 typeGroup: Enums.MagistrateTransactionGroup,

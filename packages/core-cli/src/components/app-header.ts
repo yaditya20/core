@@ -16,7 +16,7 @@ export class AppHeader {
      * @memberof Command
      */
     @inject(Identifiers.Package)
-    private readonly pkg!: PackageJson;
+    readonly #pkg!: PackageJson;
 
     /**
      * @returns {string}

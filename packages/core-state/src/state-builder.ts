@@ -7,30 +7,30 @@ import { Managers, Utils } from "@arkecosystem/crypto";
 @Container.injectable()
 export class StateBuilder {
     @Container.inject(Container.Identifiers.Application)
-    private readonly app!: Application;
+    readonly #app!: Application;
 
     @Container.inject(Container.Identifiers.DatabaseBlockRepository)
-    private blockRepository!: Repositories.BlockRepository;
+    #blockRepository!: Repositories.BlockRepository;
 
     @Container.inject(Container.Identifiers.DatabaseTransactionRepository)
-    private transactionRepository!: Repositories.TransactionRepository;
+    #transactionRepository!: Repositories.TransactionRepository;
 
     @Container.inject(Container.Identifiers.WalletRepository)
     @Container.tagged("state", "blockchain")
-    private walletRepository!: Contracts.State.WalletRepository;
+    #walletRepository!: Contracts.State.WalletRepository;
 
     @Container.inject(Container.Identifiers.DposState)
     @Container.tagged("state", "blockchain")
-    private dposState!: Contracts.State.DposState;
+    #dposState!: Contracts.State.DposState;
 
     @Container.inject(Container.Identifiers.LogService)
-    private logger!: Contracts.Kernel.Logger;
+    #logger!: Contracts.Kernel.Logger;
 
     @Container.inject(Container.Identifiers.EventDispatcherService)
-    private emitter!: Contracts.Kernel.EventDispatcher;
+    #emitter!: Contracts.Kernel.EventDispatcher;
 
     @Container.inject(Container.Identifiers.ConfigRepository)
-    private readonly configRepository!: Services.Config.ConfigRepository;
+    readonly #configRepository!: Services.Config.ConfigRepository;
 
     public async run(): Promise<void> {
         this.logger = this.app.log;

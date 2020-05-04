@@ -12,10 +12,10 @@ import { Controller } from "./controller";
 
 export class PeerController extends Controller {
     @Container.inject(Container.Identifiers.PeerStorage)
-    private readonly peerStorage!: Contracts.P2P.PeerStorage;
+    readonly #peerStorage!: Contracts.P2P.PeerStorage;
 
     @Container.inject(Container.Identifiers.DatabaseService)
-    private readonly database!: DatabaseService;
+    readonly #database!: DatabaseService;
 
     public getPeers(request: Hapi.Request, h: Hapi.ResponseToolkit): Contracts.P2P.PeerBroadcast[] {
         return this.peerStorage

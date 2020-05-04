@@ -15,16 +15,16 @@ export class AcceptBlockHandler implements BlockHandler {
     protected readonly blockchain!: Contracts.Blockchain.Blockchain;
 
     @Container.inject(Container.Identifiers.LogService)
-    private readonly logger!: Contracts.Kernel.Logger;
+    readonly #logger!: Contracts.Kernel.Logger;
 
     @Container.inject(Container.Identifiers.StateStore)
-    private readonly state!: Contracts.State.StateStore;
+    readonly #state!: Contracts.State.StateStore;
 
     @Container.inject(Container.Identifiers.DatabaseService)
-    private readonly database!: DatabaseService;
+    readonly #database!: DatabaseService;
 
     @Container.inject(Container.Identifiers.TransactionPoolService)
-    private readonly transactionPool!: Contracts.TransactionPool.Service;
+    readonly #transactionPool!: Contracts.TransactionPool.Service;
 
     public async execute(block: Interfaces.IBlock): Promise<BlockProcessorResult> {
         try {

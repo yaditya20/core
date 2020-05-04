@@ -4,15 +4,15 @@ import { Interfaces } from "@arkecosystem/crypto";
 @Container.injectable()
 export class DposPreviousRoundState implements Contracts.State.DposPreviousRoundState {
     @Container.inject(Container.Identifiers.Application)
-    private readonly app!: Contracts.Kernel.Application;
+    readonly #app!: Contracts.Kernel.Application;
 
     @Container.inject(Container.Identifiers.BlockState)
     @Container.tagged("state", "clone")
-    private readonly blockState!: Contracts.State.BlockState;
+    readonly #blockState!: Contracts.State.BlockState;
 
     @Container.inject(Container.Identifiers.DposState)
     @Container.tagged("state", "clone")
-    private readonly dposState!: Contracts.State.DposState;
+    readonly #dposState!: Contracts.State.DposState;
 
     public async revert(blocks: Interfaces.IBlock[], roundInfo: Contracts.Shared.RoundInfo): Promise<void> {
         for (const block of blocks.slice().reverse()) {

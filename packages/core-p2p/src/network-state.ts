@@ -57,7 +57,7 @@ class QuorumDetails {
 export class NetworkState implements Contracts.P2P.NetworkState {
     public nodeHeight: number | undefined;
     public lastBlockId: string | undefined;
-    private quorumDetails: QuorumDetails;
+    #quorumDetails: QuorumDetails;
 
     public constructor(public readonly status: NetworkStateStatus, lastBlock?: Interfaces.IBlock) {
         this.quorumDetails = new QuorumDetails();

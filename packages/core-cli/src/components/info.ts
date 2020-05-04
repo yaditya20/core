@@ -15,7 +15,7 @@ export class Info {
      * @memberof Command
      */
     @inject(Identifiers.Logger)
-    private readonly logger!: Logger;
+    readonly #logger!: Logger;
 
     /**
      * @static

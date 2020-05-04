@@ -24,22 +24,22 @@ export class Blockchain implements Contracts.Blockchain.Blockchain {
     protected blockProcessor: BlockProcessor;
 
     @Container.inject(Container.Identifiers.StateStore)
-    private readonly state!: Contracts.State.StateStore;
+    readonly #state!: Contracts.State.StateStore;
 
     @Container.inject(Container.Identifiers.DatabaseService)
-    private readonly database!: DatabaseService;
+    readonly #database!: DatabaseService;
 
     @Container.inject(Container.Identifiers.DatabaseBlockRepository)
-    private readonly blockRepository!: Repositories.BlockRepository;
+    readonly #blockRepository!: Repositories.BlockRepository;
 
     @Container.inject(Container.Identifiers.TransactionPoolService)
-    private readonly transactionPool!: Contracts.TransactionPool.Service;
+    readonly #transactionPool!: Contracts.TransactionPool.Service;
 
     @Container.inject(Container.Identifiers.StateMachine)
-    private readonly stateMachine!: StateMachine;
+    readonly #stateMachine!: StateMachine;
 
     @Container.inject(Container.Identifiers.EventDispatcherService)
-    private readonly emitter!: Contracts.Kernel.EventDispatcher;
+    readonly #emitter!: Contracts.Kernel.EventDispatcher;
 
     private missedBlocks: number = 0;
 

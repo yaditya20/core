@@ -13,35 +13,35 @@ export class MemoryQueue implements Queue {
      * @type {(QueueJob[])}
      * @memberof MemoryQueue
      */
-    private readonly jobs: QueueJob[] = [];
+    readonly #jobs: QueueJob[] = [];
 
     /**
      * @private
      * @type {Promise<any[]>}
      * @memberof MemoryQueue
      */
-    private lastQueue?: Promise<any[]>;
+    #lastQueue?: Promise<any[]>;
 
     /**
      * @private
      * @type {any[]}
      * @memberof MemoryQueue
      */
-    private lastResults: any[] = [];
+    #lastResults: any[] = [];
 
     /**
      * @private
      * @type {boolean}
      * @memberof MemoryQueue
      */
-    private isRunning: boolean = false;
+    #isRunning: boolean = false;
 
     /**
      * @private
      * @type {number}
      * @memberof MemoryQueue
      */
-    private index: number = -1;
+    #index: number = -1;
 
     /**
      * Create a new instance of the queue.

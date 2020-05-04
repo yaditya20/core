@@ -16,10 +16,10 @@ export class ExceptionHandler implements BlockHandler {
     protected readonly blockchain!: Contracts.Blockchain.Blockchain;
 
     @Container.inject(Container.Identifiers.LogService)
-    private readonly logger!: Contracts.Kernel.Logger;
+    readonly #logger!: Contracts.Kernel.Logger;
 
     @Container.inject(Container.Identifiers.DatabaseService)
-    private readonly database!: DatabaseService;
+    readonly #database!: DatabaseService;
 
     public async execute(block: Interfaces.IBlock): Promise<BlockProcessorResult> {
         Utils.assert.defined<string>(block.data.id);

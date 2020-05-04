@@ -11,16 +11,16 @@ export class RollbackDatabase implements Action {
 
     @Container.inject(Container.Identifiers.PluginConfiguration)
     @Container.tagged("plugin", "@arkecosystem/core-blockchain")
-    private readonly configuration!: Providers.PluginConfiguration;
+    readonly #configuration!: Providers.PluginConfiguration;
 
     @Container.inject(Container.Identifiers.LogService)
-    private readonly logger!: Contracts.Kernel.Logger;
+    readonly #logger!: Contracts.Kernel.Logger;
 
     @Container.inject(Container.Identifiers.BlockchainService)
-    private readonly blockchain!: Contracts.Blockchain.Blockchain;
+    readonly #blockchain!: Contracts.Blockchain.Blockchain;
 
     @Container.inject(Container.Identifiers.DatabaseService)
-    private readonly databaseService!: DatabaseService;
+    readonly #databaseService!: DatabaseService;
 
     public async handle(): Promise<void> {
         this.logger.info("Trying to restore database integrity");

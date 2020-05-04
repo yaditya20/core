@@ -16,7 +16,7 @@ export class PluginManifest {
      * @type {PackageJson}
      * @memberof PluginManifest
      */
-    private manifest!: PackageJson;
+    #manifest!: PackageJson;
 
     /**
      * Get the manifest for the given package.

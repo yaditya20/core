@@ -16,7 +16,7 @@ export class CoreGenerator extends Generator {
      * @type {string}
      * @memberof CoreGenerator
      */
-    private destination!: string;
+    #destination!: string;
 
     /**
      * @returns {CoreConfigPaths}

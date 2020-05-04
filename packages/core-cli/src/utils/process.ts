@@ -23,7 +23,7 @@ export class Process {
      * @memberof ComponentFactory
      */
     @inject(Identifiers.Application)
-    private readonly app!: Application;
+    readonly #app!: Application;
 
     /**
      * @private
@@ -31,14 +31,14 @@ export class Process {
      * @memberof Command
      */
     @inject(Identifiers.ProcessManager)
-    private readonly processManager!: ProcessManager;
+    readonly #processManager!: ProcessManager;
 
     /**
      * @private
      * @type {string}
      * @memberof Process
      */
-    private processName!: string;
+    #processName!: string;
 
     /**
      * @param {string} token

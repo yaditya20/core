@@ -4,12 +4,12 @@ import { Identities, Interfaces } from "@arkecosystem/crypto";
 @Container.injectable()
 export class Mempool implements Contracts.TransactionPool.Mempool {
     @Container.inject(Container.Identifiers.LogService)
-    private readonly logger!: Contracts.Kernel.Logger;
+    readonly #logger!: Contracts.Kernel.Logger;
 
     @Container.inject(Container.Identifiers.TransactionPoolSenderMempoolFactory)
-    private readonly createSenderMempool!: Contracts.TransactionPool.SenderMempoolFactory;
+    readonly #createSenderMempool!: Contracts.TransactionPool.SenderMempoolFactory;
 
-    private readonly senderMempools = new Map<string, Contracts.TransactionPool.SenderMempool>();
+    readonly #senderMempools = new Map<string, Contracts.TransactionPool.SenderMempool>();
 
     public getSize(): number {
         return Array.from(this.senderMempools.values()).reduce((sum, p) => sum + p.getSize(), 0);

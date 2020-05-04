@@ -4,7 +4,7 @@ import { ActionArguments } from "@arkecosystem/core-kernel/src/types";
 import { DatabaseService } from "../database-service";
 
 export class GetActiveDelegatesAction extends Services.Triggers.Action {
-    private app: Contracts.Kernel.Application;
+    #app: Contracts.Kernel.Application;
 
     public constructor(app: Contracts.Kernel.Application) {
         super();

@@ -4,7 +4,7 @@ import { resolve } from "path";
 import { Identifiers, interfaces } from "./ioc";
 
 export class Application {
-    public constructor(private readonly container: interfaces.Container) {
+    public constructor(readonly #container: interfaces.Container) {
         this.container.bind(Identifiers.Application).toConstantValue(this);
     }
 

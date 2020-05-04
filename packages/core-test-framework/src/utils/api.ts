@@ -7,7 +7,7 @@ import secrets from "../internal/passphrases.json";
 import { TransactionFactory } from "./transaction-factory";
 
 export class ApiHelpers {
-    public constructor(private readonly app: Contracts.Kernel.Application) {}
+    public constructor(readonly #app: Contracts.Kernel.Application) {}
 
     public async request(method, path, params = {}, headers = {}) {
         // Build URL params from _params_ object for GET / DELETE requests

@@ -8,7 +8,7 @@ export class AcceptPeerPlugin {
     protected readonly app!: Contracts.Kernel.Application;
 
     @Container.inject(Container.Identifiers.PeerProcessor)
-    private readonly peerProcessor!: Contracts.P2P.PeerProcessor;
+    readonly #peerProcessor!: Contracts.P2P.PeerProcessor;
 
     public register(server) {
         const peerRoutesConfigByPath = this.app.resolve(PeerRoute).getRoutesConfigByPath();

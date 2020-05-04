@@ -13,7 +13,7 @@ export class Log {
      * @memberof Command
      */
     @inject(Identifiers.Logger)
-    private readonly logger!: Logger;
+    readonly #logger!: Logger;
 
     /**
      * @static

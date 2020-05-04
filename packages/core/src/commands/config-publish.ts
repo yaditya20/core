@@ -41,7 +41,7 @@ export class Command extends Commands.Command {
      * @memberof Command
      */
     @Container.inject(Container.Identifiers.Environment)
-    private readonly environment!: Services.Environment;
+    readonly #environment!: Services.Environment;
 
     /**
      * Configure the console command.
@@ -101,7 +101,7 @@ export class Command extends Commands.Command {
     private async performPublishment(flags: Contracts.AnyObject): Promise<void> {
         this.app
             .rebind(Container.Identifiers.ApplicationPaths)
-            .toConstantValue(this.environment.getPaths(flags.token, flags.network));
+            .toConstantValue(this.#environment.getPaths(flags.token, flags.network));
 
         const configDest = this.app.getCorePath("config");
         const configSrc = resolve(__dirname, `../../bin/config/${flags.network}`);

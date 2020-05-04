@@ -4,8 +4,8 @@ import { cidr } from "ip";
 // todo: review the implementation
 @Container.injectable()
 export class PeerStorage implements Contracts.P2P.PeerStorage {
-    private readonly peers: Map<string, Contracts.P2P.Peer> = new Map<string, Contracts.P2P.Peer>();
-    private readonly peersPending: Map<string, Contracts.P2P.Peer> = new Map<string, Contracts.P2P.Peer>();
+    readonly #peers: Map<string, Contracts.P2P.Peer> = new Map<string, Contracts.P2P.Peer>();
+    readonly #peersPending: Map<string, Contracts.P2P.Peer> = new Map<string, Contracts.P2P.Peer>();
 
     public getPeers(): Contracts.P2P.Peer[] {
         return [...this.peers.values()];

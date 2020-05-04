@@ -20,18 +20,18 @@ export class TransactionFactory {
     protected builder: any;
     protected app: Contracts.Kernel.Application;
 
-    private network: Types.NetworkName = "testnet";
-    private networkConfig: Interfaces.NetworkConfig | undefined;
-    private nonce: Utils.BigNumber | undefined;
-    private fee: Utils.BigNumber | undefined;
-    private timestamp: number | undefined;
-    private passphrase: string = defaultPassphrase;
-    private secondPassphrase: string | undefined;
-    private passphraseList: string[] | undefined;
-    private passphrasePairs: IPassphrasePair[] | undefined;
-    private version: number | undefined;
-    private senderPublicKey: string | undefined;
-    private expiration: number | undefined;
+    #network: Types.NetworkName = "testnet";
+    #networkConfig: Interfaces.NetworkConfig | undefined;
+    #nonce: Utils.BigNumber | undefined;
+    #fee: Utils.BigNumber | undefined;
+    #timestamp: number | undefined;
+    #passphrase: string = defaultPassphrase;
+    #secondPassphrase: string | undefined;
+    #passphraseList: string[] | undefined;
+    #passphrasePairs: IPassphrasePair[] | undefined;
+    #version: number | undefined;
+    #senderPublicKey: string | undefined;
+    #expiration: number | undefined;
 
     protected constructor(app?: Contracts.Kernel.Application) {
         // @ts-ignore - this is only needed because of the "getNonce"

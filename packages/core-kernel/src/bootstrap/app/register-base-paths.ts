@@ -24,7 +24,7 @@ export class RegisterBasePaths implements Bootstrapper {
      * @memberof Local
      */
     @inject(Identifiers.Application)
-    private readonly app!: Application;
+    readonly #app!: Application;
 
     /**
      * @private
@@ -32,7 +32,7 @@ export class RegisterBasePaths implements Bootstrapper {
      * @memberof RegisterBasePaths
      */
     @inject(Identifiers.ConfigRepository)
-    private readonly configRepository!: ConfigRepository;
+    readonly #configRepository!: ConfigRepository;
 
     /**
      * @returns {Promise<void>}

@@ -9,7 +9,7 @@ import { HtlcLockTransactionHandler } from "./htlc-lock";
 @Container.injectable()
 export class HtlcClaimTransactionHandler extends TransactionHandler {
     @Container.inject(Container.Identifiers.TransactionPoolQuery)
-    private readonly poolQuery!: Contracts.TransactionPool.Query;
+    readonly #poolQuery!: Contracts.TransactionPool.Query;
 
     public dependencies(): ReadonlyArray<TransactionHandlerConstructor> {
         return [HtlcLockTransactionHandler];
@@ -96,7 +96,7 @@ export class HtlcClaimTransactionHandler extends TransactionHandler {
             );
         }
 
-        const hasClaim: boolean = this.poolQuery
+        const hasClaim: boolean = this.#poolQuery
             .getAll()
             .whereKind(transaction)
             .wherePredicate((t) => t.data.asset?.claim?.lockTransactionId === lockId)

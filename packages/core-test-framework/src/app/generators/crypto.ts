@@ -14,7 +14,7 @@ export class CryptoGenerator extends Generator {
      * @type {string}
      * @memberof CoreGenerator
      */
-    private destination!: string;
+    #destination!: string;
 
     /**
      * @returns {CoreConfigPaths}

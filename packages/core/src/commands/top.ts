@@ -40,7 +40,7 @@ export class Command extends Commands.Command {
      * @memberof Command
      */
     @Container.inject(Container.Identifiers.ProcessManager)
-    private readonly processManager!: Services.ProcessManager;
+    readonly #processManager!: Services.ProcessManager;
 
     /**
      * Configure the console command.

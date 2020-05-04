@@ -15,7 +15,7 @@ const {
 export class TransactionFilter implements Contracts.Database.TransactionFilter {
     @Container.inject(Container.Identifiers.WalletRepository)
     @Container.tagged("state", "blockchain")
-    private readonly walletRepository!: Contracts.State.WalletRepository;
+    readonly #walletRepository!: Contracts.State.WalletRepository;
 
     public async getExpression(
         criteria: Contracts.Shared.OrTransactionCriteria,

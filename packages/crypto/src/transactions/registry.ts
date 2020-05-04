@@ -11,10 +11,10 @@ import { InternalTransactionType } from "./types/internal-transaction-type";
 export type TransactionConstructor = typeof Transaction;
 
 class TransactionRegistry {
-    private readonly transactionTypes: Map<InternalTransactionType, Map<number, TransactionConstructor>> = new Map();
+    readonly #transactionTypes: Map<InternalTransactionType, Map<number, TransactionConstructor>> = new Map();
 
     public constructor() {
-        TransactionTypeFactory.initialize(this.transactionTypes);
+        TransactionTypeFactory.initialize(this.#transactionTypes);
 
         this.registerTransactionType(One.TransferTransaction);
         this.registerTransactionType(Two.TransferTransaction);
@@ -50,7 +50,7 @@ class TransactionRegistry {
         }
 
         const internalType: InternalTransactionType = InternalTransactionType.from(type, typeGroup);
-        for (const registeredConstructors of this.transactionTypes.values()) {
+        for (const registeredConstructors of this.#transactionTypes.values()) {
             if (registeredConstructors.size) {
                 const first = [...registeredConstructors.values()][0];
                 if (
@@ -68,13 +68,13 @@ class TransactionRegistry {
             }
         }
 
-        if (!this.transactionTypes.has(internalType)) {
-            this.transactionTypes.set(internalType, new Map());
-        } else if (this.transactionTypes.get(internalType)?.has(constructor.version)) {
+        if (!this.#transactionTypes.has(internalType)) {
+            this.#transactionTypes.set(internalType, new Map());
+        } else if (this.#transactionTypes.get(internalType)?.has(constructor.version)) {
             throw new TransactionVersionAlreadyRegisteredError(constructor.name, constructor.version);
         }
 
-        this.transactionTypes.get(internalType)!.set(constructor.version, constructor);
+        this.#transactionTypes.get(internalType)!.set(constructor.version, constructor);
         this.updateSchemas(constructor);
     }
 
@@ -86,13 +86,13 @@ class TransactionRegistry {
         }
 
         const internalType: InternalTransactionType = InternalTransactionType.from(type, typeGroup);
-        if (!this.transactionTypes.has(internalType)) {
+        if (!this.#transactionTypes.has(internalType)) {
             throw new UnkownTransactionError(internalType.toString());
         }
 
         this.updateSchemas(constructor, true);
 
-        const constructors = this.transactionTypes.get(internalType)!;
+        const constructors = this.#transactionTypes.get(internalType)!;
         if (!constructors.has(version)) {
             throw new UnkownTransactionError(internalType.toString());
         }
@@ -100,7 +100,7 @@ class TransactionRegistry {
         constructors.delete(version);
 
         if (constructors.size === 0) {
-            this.transactionTypes.delete(internalType);
+            this.#transactionTypes.delete(internalType);
         }
     }
 

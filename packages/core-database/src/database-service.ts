@@ -19,40 +19,40 @@ export class DatabaseService {
     public forgingDelegates: Contracts.State.Wallet[] | undefined = undefined;
 
     @Container.inject(Container.Identifiers.Application)
-    private readonly app!: Contracts.Kernel.Application;
+    readonly #app!: Contracts.Kernel.Application;
 
     @Container.inject(Container.Identifiers.DatabaseConnection)
-    private readonly connection!: Connection;
+    readonly #connection!: Connection;
 
     @Container.inject(Container.Identifiers.DatabaseBlockRepository)
-    private readonly blockRepository!: BlockRepository;
+    readonly #blockRepository!: BlockRepository;
 
     @Container.inject(Container.Identifiers.DatabaseTransactionRepository)
-    private readonly transactionRepository!: TransactionRepository;
+    readonly #transactionRepository!: TransactionRepository;
 
     @Container.inject(Container.Identifiers.DatabaseRoundRepository)
-    private readonly roundRepository!: RoundRepository;
+    readonly #roundRepository!: RoundRepository;
 
     @Container.inject(Container.Identifiers.WalletRepository)
     @Container.tagged("state", "blockchain")
-    private readonly walletRepository!: Contracts.State.WalletRepository;
+    readonly #walletRepository!: Contracts.State.WalletRepository;
 
     @Container.inject(Container.Identifiers.BlockState)
     @Container.tagged("state", "blockchain")
-    private readonly blockState!: Contracts.State.BlockState;
+    readonly #blockState!: Contracts.State.BlockState;
 
     @Container.inject(Container.Identifiers.DposState)
     @Container.tagged("state", "blockchain")
-    private readonly dposState!: Contracts.State.DposState;
+    readonly #dposState!: Contracts.State.DposState;
 
     @Container.inject(Container.Identifiers.DposPreviousRoundStateProvider)
-    private readonly getDposPreviousRoundState!: Contracts.State.DposPreviousRoundStateProvider;
+    readonly #getDposPreviousRoundState!: Contracts.State.DposPreviousRoundStateProvider;
 
     @Container.inject(Container.Identifiers.LogService)
-    private readonly logger!: Contracts.Kernel.Logger;
+    readonly #logger!: Contracts.Kernel.Logger;
 
     @Container.inject(Container.Identifiers.EventDispatcherService)
-    private readonly emitter!: Contracts.Kernel.EventDispatcher;
+    readonly #emitter!: Contracts.Kernel.EventDispatcher;
 
     public async initialize(): Promise<void> {
         if (process.env.CORE_ENV === "test") {

@@ -11,14 +11,14 @@ export class ExecuteCallbackWhenReady implements EventListener {
      * @type {number}
      * @memberof ExecuteCallbackWhenReady
      */
-    private blockCount!: number;
+    #blockCount!: number;
 
     /**
      * @private
      * @type {Function}
      * @memberof ExecuteCallbackWhenReady
      */
-    private callback!: Function;
+    #callback!: Function;
 
     /**
      * @param {Function} callback

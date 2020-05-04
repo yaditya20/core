@@ -9,7 +9,7 @@ export class MixinService {
      * @type {Map<string, Function>}
      * @memberof MixinService
      */
-    private readonly mixins: Map<string, Function> = new Map<string, Function>();
+    readonly #mixins: Map<string, Function> = new Map<string, Function>();
 
     /**
      * @param {string} name

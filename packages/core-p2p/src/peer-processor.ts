@@ -12,26 +12,26 @@ export class PeerProcessor implements Contracts.P2P.PeerProcessor {
     public nextUpdateNetworkStatusScheduled: boolean = false;
 
     @Container.inject(Container.Identifiers.Application)
-    private readonly app!: Contracts.Kernel.Application;
+    readonly #app!: Contracts.Kernel.Application;
 
     @Container.inject(Container.Identifiers.PluginConfiguration)
     @Container.tagged("plugin", "@arkecosystem/core-p2p")
-    private readonly configuration!: Providers.PluginConfiguration;
+    readonly #configuration!: Providers.PluginConfiguration;
 
     @Container.inject(Container.Identifiers.LogService)
-    private readonly logger!: Contracts.Kernel.Logger;
+    readonly #logger!: Contracts.Kernel.Logger;
 
     @Container.inject(Container.Identifiers.EventDispatcherService)
-    private readonly emitter!: Contracts.Kernel.EventDispatcher;
+    readonly #emitter!: Contracts.Kernel.EventDispatcher;
 
     @Container.inject(Container.Identifiers.PeerCommunicator)
-    private readonly communicator!: Contracts.P2P.PeerCommunicator;
+    readonly #communicator!: Contracts.P2P.PeerCommunicator;
 
     @Container.inject(Container.Identifiers.PeerConnector)
-    private readonly connector!: Contracts.P2P.PeerConnector;
+    readonly #connector!: Contracts.P2P.PeerConnector;
 
     @Container.inject(Container.Identifiers.PeerStorage)
-    private readonly storage!: Contracts.P2P.PeerStorage;
+    readonly #storage!: Contracts.P2P.PeerStorage;
 
     public initialize() {
         this.emitter.listen(Enums.CryptoEvent.MilestoneChanged, this.app.resolve(DisconnectInvalidPeers));

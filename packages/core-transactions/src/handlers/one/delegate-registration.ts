@@ -13,7 +13,7 @@ import { TransactionHandler, TransactionHandlerConstructor } from "../transactio
 @Container.injectable()
 export class DelegateRegistrationTransactionHandler extends TransactionHandler {
     @Container.inject(Container.Identifiers.TransactionPoolQuery)
-    private readonly poolQuery!: Contracts.TransactionPool.Query;
+    readonly #poolQuery!: Contracts.TransactionPool.Query;
 
     public dependencies(): ReadonlyArray<TransactionHandlerConstructor> {
         return [];
@@ -84,7 +84,7 @@ export class DelegateRegistrationTransactionHandler extends TransactionHandler {
     public async throwIfCannotEnterPool(transaction: Interfaces.ITransaction): Promise<void> {
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
 
-        const hasSender: boolean = this.poolQuery
+        const hasSender: boolean = this.#poolQuery
             .getAllBySender(transaction.data.senderPublicKey)
             .whereKind(transaction)
             .has();
@@ -99,7 +99,7 @@ export class DelegateRegistrationTransactionHandler extends TransactionHandler {
 
         AppUtils.assert.defined<string>(transaction.data.asset?.delegate?.username);
         const username: string = transaction.data.asset.delegate.username;
-        const hasUsername: boolean = this.poolQuery
+        const hasUsername: boolean = this.#poolQuery
             .getAll()
             .whereKind(transaction)
             .wherePredicate((t) => t.data.asset?.delegate?.username === username)

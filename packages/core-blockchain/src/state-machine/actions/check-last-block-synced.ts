@@ -8,7 +8,7 @@ export class CheckLastBlockSynced implements Action {
     public readonly app!: Contracts.Kernel.Application;
 
     @Container.inject(Container.Identifiers.BlockchainService)
-    private readonly blockchain!: Contracts.Blockchain.Blockchain;
+    readonly #blockchain!: Contracts.Blockchain.Blockchain;
 
     public async handle(): Promise<void> {
         this.blockchain.dispatch(this.blockchain.isSynced() ? "SYNCED" : "NOTSYNCED");

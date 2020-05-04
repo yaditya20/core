@@ -14,7 +14,7 @@ import { TransactionHandler, TransactionHandlerConstructor } from "../transactio
 @Container.injectable()
 export class MultiSignatureRegistrationTransactionHandler extends TransactionHandler {
     @Container.inject(Container.Identifiers.TransactionPoolQuery)
-    private readonly poolQuery!: Contracts.TransactionPool.Query;
+    readonly #poolQuery!: Contracts.TransactionPool.Query;
 
     public dependencies(): ReadonlyArray<TransactionHandlerConstructor> {
         return [];
@@ -91,7 +91,7 @@ export class MultiSignatureRegistrationTransactionHandler extends TransactionHan
     public async throwIfCannotEnterPool(transaction: Interfaces.ITransaction): Promise<void> {
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
 
-        const hasSender: boolean = this.poolQuery
+        const hasSender: boolean = this.#poolQuery
             .getAllBySender(transaction.data.senderPublicKey)
             .whereKind(transaction)
             .has();

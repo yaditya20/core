@@ -6,17 +6,17 @@ import { Interfaces, Utils } from "@arkecosystem/crypto";
 export class DynamicFeeMatcher implements Contracts.TransactionPool.DynamicFeeMatcher {
     @Container.inject(Container.Identifiers.PluginConfiguration)
     @Container.tagged("plugin", "@arkecosystem/core-transaction-pool")
-    private readonly configuration!: Providers.PluginConfiguration;
+    readonly #configuration!: Providers.PluginConfiguration;
 
     @Container.inject(Container.Identifiers.TransactionHandlerRegistry)
     @Container.tagged("state", "blockchain")
-    private readonly handlerRegistry!: Handlers.Registry;
+    readonly #handlerRegistry!: Handlers.Registry;
 
     @Container.inject(Container.Identifiers.StateStore)
-    private readonly stateStore!: Contracts.State.StateStore;
+    readonly #stateStore!: Contracts.State.StateStore;
 
     @Container.inject(Container.Identifiers.LogService)
-    private readonly logger!: Contracts.Kernel.Logger;
+    readonly #logger!: Contracts.Kernel.Logger;
 
     public async canEnterPool(transaction: Interfaces.ITransaction): Promise<boolean> {
         const dynamicFeesConfiguration: Record<string, any> = this.configuration.getRequired<Record<string, any>>(

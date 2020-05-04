@@ -18,7 +18,7 @@ export class JoiValidator implements Validator {
      * @type {JsonObject}
      * @memberof JoiValidator
      */
-    private data!: JsonObject;
+    #data!: JsonObject;
 
     /**
      * The validated data.
@@ -27,7 +27,7 @@ export class JoiValidator implements Validator {
      * @type {(JsonObject | undefined)}
      * @memberof JoiValidator
      */
-    private resultValue: JsonObject | undefined;
+    #resultValue: JsonObject | undefined;
 
     /**
      * The error messages.
@@ -36,7 +36,7 @@ export class JoiValidator implements Validator {
      * @type {(ValidationErrorItem[] | undefined)}
      * @memberof JoiValidator
      */
-    private resultError: ValidationErrorItem[] | undefined;
+    #resultError: ValidationErrorItem[] | undefined;
 
     /**
      * Run the schema against the given data.

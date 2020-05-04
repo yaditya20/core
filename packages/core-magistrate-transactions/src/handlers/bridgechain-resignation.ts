@@ -19,7 +19,7 @@ import { MagistrateTransactionHandler } from "./magistrate-handler";
 @Container.injectable()
 export class BridgechainResignationTransactionHandler extends MagistrateTransactionHandler {
     @Container.inject(Container.Identifiers.TransactionPoolQuery)
-    private readonly poolQuery!: Contracts.TransactionPool.Query;
+    readonly #poolQuery!: Contracts.TransactionPool.Query;
 
     public dependencies(): ReadonlyArray<Handlers.TransactionHandlerConstructor> {
         return [BridgechainRegistrationTransactionHandler];
@@ -103,7 +103,7 @@ export class BridgechainResignationTransactionHandler extends MagistrateTransact
         Utils.assert.defined<string>(transaction.data.senderPublicKey);
 
         const bridgechainId: string = transaction.data.asset!.bridgechainResignation.bridgechainId;
-        const hasResignation: boolean = this.poolQuery
+        const hasResignation: boolean = this.#poolQuery
             .getAllBySender(transaction.data.senderPublicKey)
             .whereKind(transaction)
             .wherePredicate((t) => t.data.asset?.bridgechainResignation.bridgechainId === bridgechainId)

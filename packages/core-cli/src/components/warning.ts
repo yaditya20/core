@@ -15,7 +15,7 @@ export class Warning {
      * @memberof Warning
      */
     @inject(Identifiers.Logger)
-    private readonly logger!: Logger;
+    readonly #logger!: Logger;
 
     /**
      * @static

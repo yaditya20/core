@@ -11,23 +11,23 @@ import { Controller } from "./controller";
 export class NodeController extends Controller {
     @Container.inject(Container.Identifiers.PluginConfiguration)
     @Container.tagged("plugin", "@arkecosystem/core-transaction-pool")
-    private readonly transactionPoolConfiguration!: Providers.PluginConfiguration;
+    readonly #transactionPoolConfiguration!: Providers.PluginConfiguration;
 
     @Container.inject(Container.Identifiers.TransactionHandlerRegistry)
     @Container.tagged("state", "null")
-    private readonly nullHandlerRegistry!: Handlers.Registry;
+    readonly #nullHandlerRegistry!: Handlers.Registry;
 
     @Container.inject(Container.Identifiers.ConfigRepository)
-    private readonly configRepository!: Services.Config.ConfigRepository;
+    readonly #configRepository!: Services.Config.ConfigRepository;
 
     @Container.inject(Container.Identifiers.BlockchainService)
-    private readonly blockchain!: Contracts.Blockchain.Blockchain;
+    readonly #blockchain!: Contracts.Blockchain.Blockchain;
 
     @Container.inject(Container.Identifiers.PeerNetworkMonitor)
-    private readonly networkMonitor!: Contracts.P2P.NetworkMonitor;
+    readonly #networkMonitor!: Contracts.P2P.NetworkMonitor;
 
     @Container.inject(Container.Identifiers.DatabaseTransactionRepository)
-    private readonly transactionRepository!: Repositories.TransactionRepository;
+    readonly #transactionRepository!: Repositories.TransactionRepository;
 
     public async status(request: Hapi.Request, h: Hapi.ResponseToolkit) {
         const lastBlock = this.blockchain.getLastBlock();

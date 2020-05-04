@@ -9,11 +9,11 @@ import { Controller } from "./controller";
 @Container.injectable()
 export class LocksController extends Controller {
     @Container.inject(Container.Identifiers.TransactionHistoryService)
-    private readonly transactionHistoryService!: Contracts.Shared.TransactionHistoryService;
+    readonly #transactionHistoryService!: Contracts.Shared.TransactionHistoryService;
 
     @Container.inject(Container.Identifiers.WalletRepository)
     @Container.tagged("state", "blockchain")
-    private readonly walletRepository!: Contracts.State.WalletRepository;
+    readonly #walletRepository!: Contracts.State.WalletRepository;
 
     public async index(request: Hapi.Request, h: Hapi.ResponseToolkit) {
         const locks = this.walletRepository.search(Contracts.State.SearchScope.Locks, {

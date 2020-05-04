@@ -17,14 +17,15 @@ export class Listener {
      * @memberof Server
      */
     @Container.inject(Container.Identifiers.Application)
-    private readonly app!: Contracts.Kernel.Application;
+    readonly #app!: Contracts.Kernel.Application;
+
     /**
      * @private
      * @type {Contracts.Kernel.Logger}
      * @memberof Broadcaster
      */
     @Container.inject(Container.Identifiers.LogService)
-    private readonly logger!: Contracts.Kernel.Logger;
+    readonly #logger!: Contracts.Kernel.Logger;
 
     /**
      * @param {string} event
@@ -58,11 +59,11 @@ export class Listener {
                 timeout,
             });
 
-            this.logger.debug(
+            this.#logger.debug(
                 `Webhooks Job ${webhook.id} completed! Event [${webhook.event}] has been transmitted to [${webhook.target}] with a status of [${statusCode}].`,
             );
         } catch (error) {
-            this.logger.error(`Webhooks Job ${webhook.id} failed: ${error.message}`);
+            this.#logger.error(`Webhooks Job ${webhook.id} failed: ${error.message}`);
         }
     }
 
@@ -74,7 +75,7 @@ export class Listener {
      * @memberof Listener
      */
     private getWebhooks(event: string, payload: object): Webhook[] {
-        return this.app
+        return this.#app
             .get<Database>(Identifiers.Database)
             .findByEvent(event)
             .filter((webhook: Webhook) => {

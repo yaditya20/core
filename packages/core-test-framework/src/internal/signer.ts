@@ -1,7 +1,7 @@
 import { Identities, Managers, Transactions, Utils } from "@arkecosystem/crypto";
 
 export class Signer {
-    private nonce: Utils.BigNumber;
+    #nonce: Utils.BigNumber;
 
     public constructor(config, nonce: string) {
         Managers.configManager.setConfig(config);

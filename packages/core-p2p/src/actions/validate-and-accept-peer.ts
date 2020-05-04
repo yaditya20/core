@@ -3,7 +3,7 @@ import { ActionArguments } from "@arkecosystem/core-kernel/src/types";
 import { PeerProcessor } from "@arkecosystem/core-p2p/src/peer-processor";
 
 export class ValidateAndAcceptPeerAction extends Services.Triggers.Action {
-    private app: Contracts.Kernel.Application;
+    #app: Contracts.Kernel.Application;
 
     public constructor(app: Contracts.Kernel.Application) {
         super();

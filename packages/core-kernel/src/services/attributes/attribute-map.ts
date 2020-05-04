@@ -10,7 +10,7 @@ export class AttributeMap {
      * @type {object}
      * @memberof AttributeMap
      */
-    private attributes: object = {};
+    #attributes: object = {};
 
     /**
      * Creates an instance of AttributeMap.
@@ -18,7 +18,7 @@ export class AttributeMap {
      * @param {AttributeSet} knownAttributes
      * @memberof AttributeMap
      */
-    public constructor(private readonly knownAttributes: AttributeSet) {}
+    public constructor(readonly #knownAttributes: AttributeSet) {}
 
     /**
      * @returns {object}

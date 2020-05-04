@@ -13,7 +13,7 @@ export class AbortUnknownProcess {
      * @memberof Command
      */
     @inject(Identifiers.ProcessManager)
-    private readonly processManager!: ProcessManager;
+    readonly #processManager!: ProcessManager;
 
     /**
      * @static

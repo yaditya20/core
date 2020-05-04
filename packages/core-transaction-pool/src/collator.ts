@@ -5,34 +5,34 @@ import { Interfaces, Managers } from "@arkecosystem/crypto";
 export class Collator implements Contracts.TransactionPool.Collator {
     @Container.inject(Container.Identifiers.PluginConfiguration)
     @Container.tagged("plugin", "@arkecosystem/core-transaction-pool")
-    private readonly configuration!: Providers.PluginConfiguration;
+    readonly #configuration!: Providers.PluginConfiguration;
 
     @Container.inject(Container.Identifiers.TransactionValidatorFactory)
-    private readonly createTransactionValidator!: Contracts.State.TransactionValidatorFactory;
+    readonly #createTransactionValidator!: Contracts.State.TransactionValidatorFactory;
 
     @Container.inject(Container.Identifiers.BlockchainService)
-    private readonly blockchain!: Contracts.Blockchain.Blockchain;
+    readonly #blockchain!: Contracts.Blockchain.Blockchain;
 
     @Container.inject(Container.Identifiers.TransactionPoolService)
-    private readonly pool!: Contracts.TransactionPool.Service;
+    readonly #pool!: Contracts.TransactionPool.Service;
 
     @Container.inject(Container.Identifiers.TransactionPoolQuery)
-    private readonly poolQuery!: Contracts.TransactionPool.Query;
+    readonly #poolQuery!: Contracts.TransactionPool.Query;
 
     @Container.inject(Container.Identifiers.LogService)
-    private readonly logger!: Contracts.Kernel.Logger;
+    readonly #logger!: Contracts.Kernel.Logger;
 
     public async getBlockCandidateTransactions(): Promise<Interfaces.ITransaction[]> {
-        let bytesLeft: number | undefined = this.configuration.get<number>("maxTransactionBytes");
+        let bytesLeft: number | undefined = this.#configuration.get<number>("maxTransactionBytes");
 
-        const height: number = this.blockchain.getLastBlock().data.height;
+        const height: number = this.#blockchain.getLastBlock().data.height;
         const milestone = Managers.configManager.getMilestone(height);
         const transactions: Interfaces.ITransaction[] = [];
-        const validator: Contracts.State.TransactionValidator = this.createTransactionValidator();
+        const validator: Contracts.State.TransactionValidator = this.#createTransactionValidator();
 
-        await this.pool.cleanUp();
+        await this.#pool.cleanUp();
 
-        for (const transaction of this.poolQuery.getFromHighestPriority()) {
+        for (const transaction of this.#poolQuery.getFromHighestPriority()) {
             if (transactions.length === milestone.block.maxTransactions) {
                 break;
             }
@@ -48,8 +48,8 @@ export class Collator implements Contracts.TransactionPool.Collator {
                 await validator.validate(transaction);
                 transactions.push(transaction);
             } catch (error) {
-                this.logger.warning(`${transaction} failed to collate: ${error.message}`);
-                await this.pool.removeTransaction(transaction);
+                this.#logger.warning(`${transaction} failed to collate: ${error.message}`);
+                await this.#pool.removeTransaction(transaction);
             }
         }
 

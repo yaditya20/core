@@ -12,7 +12,7 @@ import { Server } from "./socket-server/server";
 import { TransactionBroadcaster } from "./transaction-broadcaster";
 
 export class ServiceProvider extends Providers.ServiceProvider {
-    private serverSymbol = Symbol.for("P2P<Server>");
+    #serverSymbol = Symbol.for("P2P<Server>");
 
     public async register(): Promise<void> {
         this.registerFactories();
@@ -29,11 +29,11 @@ export class ServiceProvider extends Providers.ServiceProvider {
     }
 
     /**
-    * @returns {Promise<boolean>}
-    * @memberof ServiceProvider
-    */
+     * @returns {Promise<boolean>}
+     * @memberof ServiceProvider
+     */
     public async bootWhen(): Promise<boolean> {
-        return !process.env.DISABLE_P2P_SERVER
+        return !process.env.DISABLE_P2P_SERVER;
     }
 
     /**
@@ -48,7 +48,7 @@ export class ServiceProvider extends Providers.ServiceProvider {
         if (process.env.DISABLE_P2P_SERVER) {
             return;
         }
-        
+
         this.app.get<Server>(this.serverSymbol).dispose();
     }
 

@@ -22,14 +22,14 @@ export class PinoLogger implements Contracts.Kernel.Logger {
      * @memberof PinoLogger
      */
     @Container.inject(Container.Identifiers.Application)
-    private readonly app!: Contracts.Kernel.Application;
+    readonly #app!: Contracts.Kernel.Application;
 
     /**
      * @private
      * @type {Record<string, Chalk>}
      * @memberof PinoLogger
      */
-    private readonly levelStyles: Record<string, Chalk> = {
+    readonly #levelStyles: Record<string, Chalk> = {
         emergency: chalk.bgRed,
         alert: chalk.red,
         critical: chalk.red,
@@ -45,21 +45,21 @@ export class PinoLogger implements Contracts.Kernel.Logger {
      * @type {Writable}
      * @memberof PinoLogger
      */
-    private fileStream!: Writable;
+    #fileStream!: Writable;
 
     /**
      * @private
      * @type {pino.Logger}
      * @memberof PinoLogger
      */
-    private logger!: pino.Logger;
+    #logger!: pino.Logger;
 
     /**
      * @private
      * @type {boolean}
      * @memberof PinoLogger
      */
-    private silentConsole: boolean = false;
+    #silentConsole: boolean = false;
 
     /**
      * @param {*} options

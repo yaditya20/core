@@ -17,8 +17,8 @@ enum UnchainedBlockStatus {
 class BlockNotReadyCounter {
     public static maxAttempts = 5;
 
-    private id = "";
-    private attempts = 0;
+    #id = "";
+    #attempts = 0;
 
     public increment(block: Interfaces.IBlock): boolean {
         const { id } = block.data;
@@ -61,7 +61,7 @@ export class UnchainedHandler implements BlockHandler {
     protected readonly app!: Contracts.Kernel.Application;
 
     @Container.inject(Container.Identifiers.LogService)
-    private readonly logger!: Contracts.Kernel.Logger;
+    readonly #logger!: Contracts.Kernel.Logger;
 
     private isValidGenerator: boolean = false;
 

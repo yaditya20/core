@@ -18,7 +18,7 @@ export class MemoryLogger implements Logger {
      * @type {Record<string, Chalk>}
      * @memberof MemoryLogger
      */
-    private readonly levelStyles: Record<string, Chalk> = {
+    readonly #levelStyles: Record<string, Chalk> = {
         emergency: chalk.bgRed,
         alert: chalk.red,
         critical: chalk.red,
@@ -34,14 +34,14 @@ export class MemoryLogger implements Logger {
      * @type {boolean}
      * @memberof MemoryLogger
      */
-    private silentConsole: boolean = false;
+    #silentConsole: boolean = false;
 
     /**
      * @private
      * @type {Dayjs}
      * @memberof MemoryLogger
      */
-    private lastTimestamp: Dayjs = dayjs().utc();
+    #lastTimestamp: Dayjs = dayjs().utc();
 
     /**
      * @param {*} [options]

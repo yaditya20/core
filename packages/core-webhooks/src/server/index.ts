@@ -23,7 +23,7 @@ export class Server {
      * @memberof Server
      */
     @Container.inject(Container.Identifiers.Application)
-    private readonly app!: Contracts.Kernel.Application;
+    readonly #app!: Contracts.Kernel.Application;
 
     /**
      * @private
@@ -31,14 +31,14 @@ export class Server {
      * @memberof Server
      */
     @Container.inject(Identifiers.Database)
-    private readonly database!: Database;
+    readonly #database!: Database;
 
     /**
      * @private
      * @type {HapiServer}
      * @memberof Server
      */
-    private server: HapiServer;
+    #server: HapiServer;
 
     /**
      * @param {string} name
@@ -47,10 +47,10 @@ export class Server {
      * @memberof Server
      */
     public async register(optionsServer: Types.JsonObject): Promise<void> {
-        this.server = new HapiServer(this.getServerOptions(optionsServer));
-        this.server.app.database = this.database;
+        this.#server = new HapiServer(this.getServerOptions(optionsServer));
+        this.#server.app.database = this.#database;
 
-        this.server.ext({
+        this.#server.ext({
             type: "onPreHandler",
             async method(request, h) {
                 request.headers["content-type"] = "application/json";
@@ -70,11 +70,11 @@ export class Server {
      */
     public async boot(): Promise<void> {
         try {
-            await this.server.start();
+            await this.#server.start();
 
-            this.app.log.info(`Webhook Server started at ${this.server.info.uri}`);
+            this.#app.log.info(`Webhook Server started at ${this.#server.info.uri}`);
         } catch (error) {
-            await this.app.terminate(`Failed to start Webhook Server!`, error);
+            await this.#app.terminate(`Failed to start Webhook Server!`, error);
         }
     }
 
@@ -84,11 +84,11 @@ export class Server {
      */
     public async dispose(): Promise<void> {
         try {
-            await this.server.stop();
+            await this.#server.stop();
 
-            this.app.log.info(`Webhook Server stopped at ${this.server.info.uri}`);
+            this.#app.log.info(`Webhook Server stopped at ${this.#server.info.uri}`);
         } catch (error) {
-            await this.app.terminate(`Failed to stop Webhook Server!`, error);
+            await this.#app.terminate(`Failed to stop Webhook Server!`, error);
         }
     }
 
@@ -98,7 +98,7 @@ export class Server {
      * @memberof Server
      */
     public async inject(options: string | ServerInjectOptions): Promise<ServerInjectResponse> {
-        return this.server.inject(options);
+        return this.#server.inject(options);
     }
 
     /**
@@ -142,7 +142,7 @@ export class Server {
      * @memberof Server
      */
     private async registerPlugins(config: Types.JsonObject): Promise<void> {
-        await this.server.register({
+        await this.#server.register({
             plugin: whitelist,
             options: {
                 whitelist: config.whitelist,
@@ -156,7 +156,7 @@ export class Server {
      * @memberof Server
      */
     private registerRoutes(): void {
-        this.server.route({
+        this.#server.route({
             method: "GET",
             path: "/",
             handler() {
@@ -164,7 +164,7 @@ export class Server {
             },
         });
 
-        this.server.route({
+        this.#server.route({
             method: "GET",
             path: "/api/webhooks",
             handler: (request) => {
@@ -178,7 +178,7 @@ export class Server {
             },
         });
 
-        this.server.route({
+        this.#server.route({
             method: "POST",
             path: "/api/webhooks",
             handler(request: any, h) {
@@ -206,7 +206,7 @@ export class Server {
             },
         });
 
-        this.server.route({
+        this.#server.route({
             method: "GET",
             path: "/api/webhooks/{id}",
             async handler(request) {
@@ -231,7 +231,7 @@ export class Server {
             },
         });
 
-        this.server.route({
+        this.#server.route({
             method: "PUT",
             path: "/api/webhooks/{id}",
             handler: (request, h) => {
@@ -248,7 +248,7 @@ export class Server {
             },
         });
 
-        this.server.route({
+        this.#server.route({
             method: "DELETE",
             path: "/api/webhooks/{id}",
             handler: (request, h) => {

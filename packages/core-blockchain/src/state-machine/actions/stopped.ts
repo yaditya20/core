@@ -8,7 +8,7 @@ export class Stopped implements Action {
     public readonly app!: Contracts.Kernel.Application;
 
     @Container.inject(Container.Identifiers.LogService)
-    private readonly logger!: Contracts.Kernel.Logger;
+    readonly #logger!: Contracts.Kernel.Logger;
 
     public async handle(): Promise<void> {
         this.logger.info("The blockchain has been stopped");

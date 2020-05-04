@@ -24,10 +24,10 @@ import { packageNameRegex } from "./utils";
 @Container.injectable()
 export class BridgechainUpdateTransactionHandler extends MagistrateTransactionHandler {
     @Container.inject(Container.Identifiers.TransactionPoolQuery)
-    private readonly poolQuery!: Contracts.TransactionPool.Query;
+    readonly #poolQuery!: Contracts.TransactionPool.Query;
 
     @Container.inject(Container.Identifiers.TransactionHistoryService)
-    private readonly transactionHistoryService!: Contracts.Shared.TransactionHistoryService;
+    readonly #transactionHistoryService!: Contracts.Shared.TransactionHistoryService;
 
     public dependencies(): ReadonlyArray<Handlers.TransactionHandlerConstructor> {
         return [BridgechainRegistrationTransactionHandler];
@@ -120,7 +120,7 @@ export class BridgechainUpdateTransactionHandler extends MagistrateTransactionHa
         Utils.assert.defined<string>(transaction.data.senderPublicKey);
 
         const bridgechainId: string = transaction.data.asset!.bridgechainUpdate.bridgechainId;
-        const hasUpdate: boolean = this.poolQuery
+        const hasUpdate: boolean = this.#poolQuery
             .getAllBySender(transaction.data.senderPublicKey)
             .whereKind(transaction)
             .wherePredicate((t) => t.data.asset?.bridgechainUpdate.bridgechainId === bridgechainId)
@@ -193,7 +193,7 @@ export class BridgechainUpdateTransactionHandler extends MagistrateTransactionHa
         );
         const bridgechainId: string = transaction.data.asset.bridgechainUpdate.bridgechainId;
 
-        const bridgechainTransactions = await this.transactionHistoryService.findManyByCriteria([
+        const bridgechainTransactions = await this.#transactionHistoryService.findManyByCriteria([
             {
                 senderPublicKey: sender.publicKey,
                 typeGroup: Enums.MagistrateTransactionGroup,

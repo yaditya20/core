@@ -7,23 +7,23 @@ import { TransactionHandler, TransactionHandlerConstructor } from "./transaction
 @Container.injectable()
 export class TransactionHandlerProvider {
     @Container.inject(Container.Identifiers.WalletAttributes)
-    private readonly attributeSet!: Services.Attributes.AttributeSet;
+    readonly #attributeSet!: Services.Attributes.AttributeSet;
 
     @Container.multiInject(Container.Identifiers.TransactionHandler)
     @Container.tagged("state", "null")
-    private readonly handlers!: TransactionHandler[];
+    readonly #handlers!: TransactionHandler[];
 
-    private registered: boolean = false;
+    #registered: boolean = false;
 
     public isRegistrationRequired(): boolean {
-        return this.registered === false;
+        return this.#registered === false;
     }
 
     public registerHandlers() {
-        for (const handler of this.handlers) {
+        for (const handler of this.#handlers) {
             this.registerHandler(handler);
         }
-        this.registered = true;
+        this.#registered = true;
     }
 
     private registerHandler(handler: TransactionHandler) {
@@ -46,8 +46,8 @@ export class TransactionHandlerProvider {
         }
 
         for (const attribute of handler.walletAttributes()) {
-            if (!this.attributeSet.has(attribute)) {
-                this.attributeSet.set(attribute);
+            if (!this.#attributeSet.has(attribute)) {
+                this.#attributeSet.set(attribute);
             }
         }
 
@@ -61,7 +61,7 @@ export class TransactionHandlerProvider {
         internalType: Transactions.InternalTransactionType,
         version: number,
     ) {
-        for (const otherHandler of this.handlers) {
+        for (const otherHandler of this.#handlers) {
             if (otherHandler === handler) continue;
 
             const otherTransactionConstructor = otherHandler.getConstructor();
@@ -81,7 +81,7 @@ export class TransactionHandlerProvider {
     }
 
     private hasOtherHandlerInstance(handler: TransactionHandler, dependency: TransactionHandlerConstructor) {
-        return this.handlers.some((otherHandler) => {
+        return this.#handlers.some((otherHandler) => {
             return otherHandler !== handler && otherHandler.constructor === dependency;
         });
     }

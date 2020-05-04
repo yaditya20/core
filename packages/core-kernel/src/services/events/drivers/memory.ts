@@ -15,8 +15,8 @@ class OnceListener implements EventListener {
      * @memberof OnceListener
      */
     public constructor(
-        private readonly dispatcher: EventDispatcherContract,
-        private readonly listener: EventListener,
+        readonly #dispatcher: EventDispatcherContract,
+        readonly #listener: EventListener,
     ) {}
 
     /**
@@ -41,7 +41,7 @@ export class MemoryEventDispatcher implements EventDispatcherContract {
      * @type {Map<EventName, Set<EventListener>>}
      * @memberof MemoryEventDispatcher
      */
-    private readonly listeners: Map<EventName, Set<EventListener>> = new Map<EventName, Set<EventListener>>();
+    readonly #listeners: Map<EventName, Set<EventListener>> = new Map<EventName, Set<EventListener>>();
 
     /**
      * @param {EventName} event

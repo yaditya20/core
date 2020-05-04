@@ -16,21 +16,21 @@ export class Config {
      * @memberof DiscoverCommands
      */
     @inject(Identifiers.Application)
-    private readonly app!: Application;
+    readonly #app!: Application;
 
     /**
      * @private
      * @type {string}
      * @memberof Config
      */
-    private file!: string;
+    #file!: string;
 
     /**
      * @private
      * @type {object}
      * @memberof Config
      */
-    private store: object = {};
+    #store: object = {};
 
     /**
      *Creates an instance of Config.

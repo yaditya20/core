@@ -25,7 +25,7 @@ export abstract class ClassManager {
      * @type {string}
      * @memberof ClassManager
      */
-    private defaultDriver: string;
+    #defaultDriver: string;
 
     // todo: revisit the implementation of the class and see if it can be removed
     // /**
@@ -35,7 +35,7 @@ export abstract class ClassManager {
     //  * @type {Map<string, Class>}
     //  * @memberof ClassManager
     //  */
-    // private drivers: Map<string, Class> = new Map<string, Class>();
+    // #drivers: Map<string, Class> = new Map<string, Class>();
 
     /**
      * Create a new manager instance.
